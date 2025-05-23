@@ -13,11 +13,14 @@ public class GamePanel extends JPanel implements Runnable{
     MouseInputs mouseH = new MouseInputs();
     KeyInputs keyH = new KeyInputs();
 
+    Player player;
+
     int FPS = 60;
 
     Thread gameThread;
 
     public GamePanel() {
+        player = new Player(400,300,this);
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
@@ -58,7 +61,7 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
-//        player.draw(g2);
+        player.draw(g2);
 
         g2.dispose();
     }

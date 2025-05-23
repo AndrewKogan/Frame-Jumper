@@ -2,15 +2,15 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 public class MouseInputs implements MouseListener {
-    public boolean leftClick, rightClick;
+    public static boolean leftClick, rightClick;
     @Override
     public void mouseClicked(MouseEvent e) {
         int mouseCode = e.getButton();
-        if(mouseCode == 1){
-            leftClick=true;
+        if (mouseCode == 1){
+            leftClick = true;
         }
-        if(mouseCode == 3){
-            rightClick=true;
+        if (mouseCode == 3){
+            rightClick = true;
         }
     }
 

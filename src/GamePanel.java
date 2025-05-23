@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable{
     MouseInputs mouseH = new MouseInputs();
     KeyInputs keyH = new KeyInputs();
 
-    int FPS = 60;
+    public static int FPS = 60;
 
     Thread gameThread;
 

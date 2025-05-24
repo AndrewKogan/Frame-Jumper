@@ -1,29 +1,25 @@
 import javax.swing.JPanel;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable{
-    final int originalTileSize = 48; // 48x48 tile
-    final int scale = 1;
-    public final int tileSize = originalTileSize * scale; // 48*48 tile
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+
 
     MouseInputs mouseH = new MouseInputs();
     KeyInputs keyH = new KeyInputs();
 
     Player player;
+    ArrayList<Wall> walls = new ArrayList<>();
 
-    int FPS = 60;
     public static int FPS = 60;
 
     Thread gameThread;
 
     public GamePanel() {
         player = new Player(400,300,this);
-        this.setPreferredSize(new Dimension(screenWidth, screenHeight));
-        this.setBackground(Color.black);
+        makeWalls();
+        this.setPreferredSize(new Dimension(700, 700));
+        this.setBackground(Color.LIGHT_GRAY);
         this.setDoubleBuffered(true);
         this.setFocusable(true);
         this.addKeyListener(keyH);
@@ -55,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
-
+        player.update();
     }
 
     public void paintComponent(Graphics g){
@@ -63,7 +59,21 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
+        for(int i = 0; i < walls.size(); i++){
+            walls.get(i).draw(g2);
+        }
+    }
 
-        g2.dispose();
+    public void makeWalls(){
+        for(int i = 50; i < 650; i+=50){
+            walls.add(new Wall(i,600,50,50));
+        }
+        walls.add(new Wall(50,550,50,50));
+        walls.add(new Wall(50,500,50,50));
+        walls.add(new Wall(50,450,50,50));
+        walls.add(new Wall(600,550,50,50));
+        walls.add(new Wall(600,500,50,50));
+        walls.add(new Wall(600,450,50,50));
+        walls.add(new Wall(450,550,50,50));
     }
 }

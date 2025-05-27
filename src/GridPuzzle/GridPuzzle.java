@@ -70,8 +70,13 @@ public class GridPuzzle{
                 checkPoint = windows[j].getLocationOnScreen();
             }
 
-            if (windows[i].getLocationOnScreen().y <= checkPoint.y)
-                return false;
+            for (int j = i - 4; j < i; j++) {
+                for (int k = i; k < i + 4; k++) {
+                    if (windows[j].getLocationOnScreen().y >= windows[k].getLocationOnScreen().y)
+                        return false;
+                }
+            }
+
             checkPoint = windows[i].getLocationOnScreen();
         }
 

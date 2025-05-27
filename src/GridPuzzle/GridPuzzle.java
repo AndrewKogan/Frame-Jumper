@@ -7,6 +7,8 @@ public class GridPuzzle{
     private JFrame[] windows = new JFrame[16];
     private Color[] colors = new Color[16];
 
+    private JFrame submitWindow;
+
     public GridPuzzle() {
         colors[0] = Color.BLUE;
         colors[1] = Color.CYAN;
@@ -45,13 +47,13 @@ public class GridPuzzle{
             windows[i] = window;
         }
 
-        JFrame submitWindow = new JFrame();
+        submitWindow = new JFrame();
         submitWindow.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         submitWindow.setResizable(false);
         submitWindow.setTitle("");
 
         submitWindow.add(new SubmitPanel(this));
-        submitWindow.setSize(100, 70);
+        submitWindow.setSize(200, 65);
         submitWindow.setLocation(3 * screenSize.width / 4, 3  *screenSize.height / 4);
 
         submitWindow.setEnabled(true);
@@ -80,5 +82,12 @@ public class GridPuzzle{
         System.out.println("Solved");
         for (JFrame window : windows)
             window.dispose();
+        submitWindow.dispose();
+    }
+
+    public void quitPuzzle() {
+        for (JFrame window : windows)
+            window.dispose();
+        submitWindow.dispose();
     }
 }

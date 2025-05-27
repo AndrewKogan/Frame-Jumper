@@ -1,10 +1,10 @@
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-public class GamePanel extends JPanel implements Runnable{
-
-
+public class GamePanel extends JPanel implements Runnable, ActionListener {
     MouseInputs mouseH = new MouseInputs();
     KeyInputs keyH = new KeyInputs();
 
@@ -13,7 +13,12 @@ public class GamePanel extends JPanel implements Runnable{
 
     public static int FPS = 60;
 
-    Thread gameThread;
+    private Thread gameThread;
+
+    private Panel panelToDisplay = Panel.LEVEL;
+
+    private Cutscene testCutscene;
+    private JButton cutsceneContinueButton;
 
     public GamePanel() {
         player = new Player(400,300,this);
@@ -24,11 +29,22 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
         this.addKeyListener(keyH);
         this.addMouseListener(mouseH);
+
+        testCutscene = new Cutscene("https://www.youtube.com/watch?v=nBhBBFt9uTI&pp=0gcJCY0JAYcqIYzv", 171000, this);
+        cutsceneContinueButton = new JButton("Continue");
+        cutsceneContinueButton.addActionListener(this);
+        add(cutsceneContinueButton);
+        cutsceneContinueButton.setVisible(false);
     }
 
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
+        testCutscene.play();
+    }
+
+    public void setPanelToDisplay(Panel panelToDisplay) {
+        this.panelToDisplay = panelToDisplay;
     }
 
     @Override
@@ -43,7 +59,8 @@ public class GamePanel extends JPanel implements Runnable{
             delta += (currentTime-lastTime)/drawInterval;
             lastTime = currentTime;
             if (delta >= 1) {
-                update();
+                if (panelToDisplay != Panel.CUTSCENE_PLAYING && panelToDisplay != Panel.CUTSCENE_ENDED)
+                    update();
                 repaint();
                 delta--;
             }
@@ -57,10 +74,45 @@ public class GamePanel extends JPanel implements Runnable{
     public void paintComponent(Graphics g){
         super.paintComponent(g);
 
+        switch (panelToDisplay) {
+            case CUTSCENE_PLAYING -> paintCutscenePlaying(g);
+            case CUTSCENE_ENDED -> paintCutsceneEnded(g);
+            case LEVEL -> paintLevel(g);
+        }
+    }
+
+    private void paintCutscenePlaying(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, 1000, 1000);
+        g.setColor(Color.RED);
+        g.fillRoundRect(225, 250, 250, 125, 10, 10);
+        g.setColor(Color.WHITE);
+        g.fillPolygon(new int[] {325, 325, 400}, new int[] {265, 360, 312}, 3);
+
+        g.setFont(new Font("Comic Sans MS", Font.ITALIC, 48));
+        g.drawString("Watch the cutscene, dummy", 25, 500);
+    }
+
+    private void paintCutsceneEnded(Graphics g) {
+        g.setColor(Color.BLACK);
+        g.fillRect(0, 0, 1000, 1000);
+        g.setColor(Color.RED);
+        g.fillRoundRect(225, 250, 250, 125, 10, 10);
+        g.setColor(Color.WHITE);
+        g.fillPolygon(new int[] {325, 325, 400}, new int[] {265, 360, 312}, 3);
+
+        g.setFont(new Font("Comic Sans MS", Font.ITALIC, 48));
+        g.drawString("Cutscene Over", 200, 500);
+
+        cutsceneContinueButton.setVisible(true);
+        cutsceneContinueButton.setLocation(300, 600);
+    }
+
+    private void paintLevel(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
-        for(int i = 0; i < walls.size(); i++){
-            walls.get(i).draw(g2);
+        for (Wall wall : walls) {
+            wall.draw(g2);
         }
     }
 
@@ -75,5 +127,14 @@ public class GamePanel extends JPanel implements Runnable{
         walls.add(new Wall(600,500,50,50));
         walls.add(new Wall(600,450,50,50));
         walls.add(new Wall(450,550,50,50));
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        Object source = e.getSource();
+        if (source == cutsceneContinueButton) {
+            setPanelToDisplay(Panel.LEVEL);
+            cutsceneContinueButton.setVisible(false);
+        }
     }
 }

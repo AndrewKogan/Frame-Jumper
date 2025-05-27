@@ -1,9 +1,10 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+import static java.lang.Math.incrementExact;
 import static java.lang.Math.signum;
 
-public class Player {
+public class Enemy {
     GamePanel panel;
     int x;
     int y;
@@ -16,11 +17,14 @@ public class Player {
 
     boolean ycollision;
     boolean xcollision;
-    
+
+    boolean touchedPlayer;
+    int invincibilityFrames;
+
 
     Rectangle hitBox;
 
-    public Player(int x, int y, GamePanel panel){
+    public Enemy(int x, int y, GamePanel panel){
         this.panel = panel;
         this.x = x;
         this.y =y;
@@ -30,24 +34,21 @@ public class Player {
         yspeed = 0;
         gravity = 0.3;
         width = 50;
-        height = 100;
+        height = 50;
         hitBox = new Rectangle(x,y,width,height);
+        touchedPlayer = false;
+        invincibilityFrames = 0;
     }
 
-    public void update() {
-        if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
-            if (KeyInputs.keysPressed[KeyEvent.VK_D]) {
-                xspeed = 5;
-            }
-            else if (KeyInputs.keysPressed[KeyEvent.VK_A]) {
-                xspeed = -5;
-            }
-            else{
-                xspeed = 0;
-            }
+    public void update(Player player) {
+        if (player.x > x) {
+            xspeed = 2;
         }
-        if (KeyInputs.keysPressed[KeyEvent.VK_W]) {
-            if(ycollision) yspeed = -7;
+        else if (player.x<x) {
+            xspeed = -2;
+        }
+        else{
+            xspeed = 0;
         }
         yspeed+=gravity;
 
@@ -64,6 +65,16 @@ public class Player {
                 x = hitBox.x;
             }
         }
+        //Player collision + invincibility frames
+        if(!touchedPlayer) {
+            if (hitBox.intersects(player.hitBox)) {
+                System.out.println("you got touched!");
+                touchedPlayer = true;
+                invincibilityFrames = 40;
+            }
+        }
+        invincibilityFrames--;
+        if(invincibilityFrames<=0) touchedPlayer = false;
 
         //Vertical collision
         ycollision = false;
@@ -84,7 +95,7 @@ public class Player {
     }
 
     public void draw(Graphics2D g2){
-        g2.setColor(Color.BLACK);
+        g2.setColor(Color.RED);
         g2.fillRect(x,y,width,height);
     }
 }

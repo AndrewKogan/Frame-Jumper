@@ -9,6 +9,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     KeyInputs keyH = new KeyInputs();
 
     Player player;
+    Enemy enemy;
     ArrayList<Wall> walls = new ArrayList<>();
 
     public static int FPS = 60;
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     public GamePanel() {
         player = new Player(400,300,this);
+        enemy = new Enemy(200,400,this);
         makeWalls();
         this.setPreferredSize(new Dimension(700, 700));
         this.setBackground(Color.LIGHT_GRAY);
@@ -40,7 +42,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
-        testCutscene.play();
+
     }
 
     public void setPanelToDisplay(Panel panelToDisplay) {
@@ -69,6 +71,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     public void update(){
         player.update();
+        enemy.update(player);
     }
 
     public void paintComponent(Graphics g){
@@ -111,6 +114,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     private void paintLevel(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
+        enemy.draw(g2);
         for (Wall wall : walls) {
             wall.draw(g2);
         }

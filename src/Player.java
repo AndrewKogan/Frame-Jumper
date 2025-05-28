@@ -16,14 +16,13 @@ public class Player {
 
     boolean ycollision;
     boolean xcollision;
-    
 
     Rectangle hitBox;
 
     public Player(int x, int y, GamePanel panel){
         this.panel = panel;
         this.x = x;
-        this.y =y;
+        this.y = y;
         ycollision = false;
         xcollision = false;
         xspeed = 0;

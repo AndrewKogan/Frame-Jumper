@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable, ActionListener {
@@ -21,6 +22,8 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     private Cutscene testCutscene;
     private JButton cutsceneContinueButton;
 
+    private Interactable testInteractable;
+
     public GamePanel() {
         player = new Player(400,300,this);
         enemy = new Enemy(200,400,this);
@@ -37,12 +40,13 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         cutsceneContinueButton.addActionListener(this);
         add(cutsceneContinueButton);
         cutsceneContinueButton.setVisible(false);
+
+        testInteractable = new Interactable(500, 500, "src\\images\\test.jpg", "Press 'E' to interact!", player);
     }
 
     public void startGameThread(){
         gameThread = new Thread(this);
         gameThread.start();
-
     }
 
     public void setPanelToDisplay(Panel panelToDisplay) {
@@ -72,6 +76,11 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void update(){
         player.update();
         enemy.update(player);
+
+        if (testInteractable.playerInTrigger()) {
+            if (KeyInputs.keysPressed[KeyEvent.VK_E])
+                testInteractable.interact();
+        }
     }
 
     public void paintComponent(Graphics g){
@@ -115,6 +124,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
         enemy.draw(g2);
+        testInteractable.draw(g2);
         for (Wall wall : walls) {
             wall.draw(g2);
         }

@@ -5,7 +5,10 @@ import static java.lang.Math.incrementExact;
 import static java.lang.Math.signum;
 
 public class Enemy {
-    GamePanel panel;
+    GameParent panel;
+    GamePanel firstPanel;
+    SecondGamePanel secondPanel;
+    boolean isFirstPanel;
     int x;
     int y;
     int width;
@@ -24,7 +27,7 @@ public class Enemy {
 
     Rectangle hitBox;
 
-    public Enemy(int x, int y, GamePanel panel){
+    public Enemy(int x, int y, GameParent panel){
         this.panel = panel;
         this.x = x;
         this.y =y;
@@ -38,6 +41,14 @@ public class Enemy {
         hitBox = new Rectangle(x,y,width,height);
         touchedPlayer = false;
         invincibilityFrames = 0;
+        if(panel instanceof GamePanel){
+            firstPanel = (GamePanel) panel;
+            isFirstPanel = true;
+        }
+        if(panel instanceof SecondGamePanel){
+            secondPanel = (SecondGamePanel) panel;
+            isFirstPanel = false;
+        }
     }
 
     public void update(Player player) {
@@ -55,16 +66,59 @@ public class Enemy {
         //Horizontal collision
         xcollision = false;
         hitBox.x+=xspeed;
-        for(Wall wall: panel.walls){
-            if(hitBox.intersects(wall.hitBox)){
-                hitBox.x-=xspeed;
-                while(!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
-                hitBox.x-=Math.signum(xspeed);
-                xcollision = true;
-                xspeed = 0;
-                x = hitBox.x;
+        if(isFirstPanel) {
+            for (Wall wall : firstPanel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.x -= xspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
+                    hitBox.x -= Math.signum(xspeed);
+                    xcollision = true;
+                    xspeed = 0;
+                    x = hitBox.x;
+                }
             }
         }
+        else{
+            for (Wall wall : secondPanel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.x -= xspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
+                    hitBox.x -= Math.signum(xspeed);
+                    xcollision = true;
+                    xspeed = 0;
+                    x = hitBox.x;
+                }
+            }
+        }
+
+        //Vertical collision
+        ycollision = false;
+        hitBox.y+=yspeed;
+        if(isFirstPanel) {
+            for (Wall wall : firstPanel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.y -= yspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
+                    hitBox.y -= Math.signum(yspeed);
+                    ycollision = true;
+                    yspeed = 0;
+                    y = hitBox.y;
+                }
+            }
+        }
+        else{
+            for (Wall wall : secondPanel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.y -= yspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
+                    hitBox.y -= Math.signum(yspeed);
+                    ycollision = true;
+                    yspeed = 0;
+                    y = hitBox.y;
+                }
+            }
+        }
+
         //Player collision + invincibility frames
         if(!touchedPlayer) {
             if (hitBox.intersects(player.hitBox)) {
@@ -75,20 +129,6 @@ public class Enemy {
         }
         invincibilityFrames--;
         if(invincibilityFrames<=0) touchedPlayer = false;
-
-        //Vertical collision
-        ycollision = false;
-        hitBox.y+=yspeed;
-        for(Wall wall: panel.walls){
-            if(hitBox.intersects(wall.hitBox)){
-                hitBox.y-=yspeed;
-                while(!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
-                hitBox.y-=Math.signum(yspeed);
-                ycollision = true;
-                yspeed = 0;
-                y = hitBox.y;
-            }
-        }
 
         x+=xspeed;
         y+=yspeed;

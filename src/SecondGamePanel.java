@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-public class GamePanel extends JPanel implements Runnable, ActionListener, GameParent {
+public class SecondGamePanel extends JPanel implements Runnable, ActionListener, GameParent {
     MouseInputs mouseH = new MouseInputs();
     KeyInputs keyH = new KeyInputs();
 
@@ -24,7 +24,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener, GameP
 
     private Interactable testInteractable;
 
-    public GamePanel() {
+    public SecondGamePanel(GamePanel gamePanel) {
         player = new Player(400,300,this);
         enemy = new Enemy(200,400,this);
         makeWalls();
@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener, GameP
         this.addKeyListener(keyH);
         this.addMouseListener(mouseH);
 
-        testCutscene = new Cutscene("https://www.youtube.com/watch?v=nBhBBFt9uTI&pp=0gcJCY0JAYcqIYzv", 171000, this);
+        testCutscene = new Cutscene("https://www.youtube.com/watch?v=nBhBBFt9uTI&pp=0gcJCY0JAYcqIYzv", 171000, gamePanel);
         cutsceneContinueButton = new JButton("Continue");
         cutsceneContinueButton.addActionListener(this);
         add(cutsceneContinueButton);
@@ -134,9 +134,9 @@ public class GamePanel extends JPanel implements Runnable, ActionListener, GameP
         for(int i = 50; i < 650; i+=50){
             walls.add(new Wall(i,600,50,50));
         }
-        walls.add(new Wall(50,550,50,50));
-        walls.add(new Wall(50,500,50,50));
-        walls.add(new Wall(50,450,50,50));
+        walls.add(new Wall(600,550,50,50));
+        walls.add(new Wall(600,500,50,50));
+        walls.add(new Wall(600,450,50,50));
         walls.add(new Wall(450,550,50,50));
     }
 

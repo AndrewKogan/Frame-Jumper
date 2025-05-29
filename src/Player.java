@@ -4,7 +4,10 @@ import java.awt.event.KeyEvent;
 import static java.lang.Math.signum;
 
 public class Player {
-    GamePanel panel;
+    GameParent panel;
+    GamePanel firstPanel;
+    SecondGamePanel secondPanel;
+    boolean isFirstPanel;
     int x;
     int y;
     int width;
@@ -19,7 +22,7 @@ public class Player {
 
     Rectangle hitBox;
 
-    public Player(int x, int y, GamePanel panel){
+    public Player(int x, int y, GameParent panel){
         this.panel = panel;
         this.x = x;
         this.y = y;
@@ -31,6 +34,14 @@ public class Player {
         width = 50;
         height = 100;
         hitBox = new Rectangle(x,y,width,height);
+        if(panel instanceof GamePanel){
+            firstPanel = (GamePanel) panel;
+            isFirstPanel = true;
+        }
+        if(panel instanceof SecondGamePanel){
+            secondPanel = (SecondGamePanel) panel;
+            isFirstPanel = false;
+        }
     }
 
     public void update() {
@@ -53,28 +64,56 @@ public class Player {
         //Horizontal collision
         xcollision = false;
         hitBox.x+=xspeed;
-        for(Wall wall: panel.walls){
-            if(hitBox.intersects(wall.hitBox)){
-                hitBox.x-=xspeed;
-                while(!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
-                hitBox.x-=Math.signum(xspeed);
-                xcollision = true;
-                xspeed = 0;
-                x = hitBox.x;
+        if(isFirstPanel){
+            for(Wall wall: firstPanel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.x -= xspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
+                    hitBox.x -= Math.signum(xspeed);
+                    xcollision = true;
+                    xspeed = 0;
+                    x = hitBox.x;
+                }
+            }
+        }
+        else{
+            for(Wall wall: secondPanel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.x -= xspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
+                    hitBox.x -= Math.signum(xspeed);
+                    xcollision = true;
+                    xspeed = 0;
+                    x = hitBox.x;
+                }
             }
         }
 
         //Vertical collision
         ycollision = false;
         hitBox.y+=yspeed;
-        for(Wall wall: panel.walls){
-            if(hitBox.intersects(wall.hitBox)){
-                hitBox.y-=yspeed;
-                while(!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
-                hitBox.y-=Math.signum(yspeed);
-                ycollision = true;
-                yspeed = 0;
-                y = hitBox.y;
+        if(isFirstPanel) {
+            for (Wall wall : firstPanel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.y -= yspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
+                    hitBox.y -= Math.signum(yspeed);
+                    ycollision = true;
+                    yspeed = 0;
+                    y = hitBox.y;
+                }
+            }
+        }
+        else{
+            for (Wall wall : secondPanel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.y -= yspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
+                    hitBox.y -= Math.signum(yspeed);
+                    ycollision = true;
+                    yspeed = 0;
+                    y = hitBox.y;
+                }
             }
         }
 

@@ -15,9 +15,13 @@ public class Player {
     int gravity;
     int yspeed;
     int frameCount;
+    int cooldown;
 
     boolean ycollision;
     boolean xcollision;
+
+    boolean holdingOn;
+    int gravityDecelerator;
 
     Rectangle hitBox;
 
@@ -34,11 +38,15 @@ public class Player {
         height = 100;
         hitBox = new Rectangle(x,y,width,height);
         frameCount = 0;
+        cooldown = 0;
+        holdingOn = false;
+        gravityDecelerator = 1;
     }
 
     public void update() {
         frameCount++;
-        if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
+        cooldown--;
+        if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A]) && cooldown < 20) {
             if (KeyInputs.keysPressed[KeyEvent.VK_D]) {
                 xspeed = 5;
             }
@@ -50,9 +58,21 @@ public class Player {
             }
         }
         if (KeyInputs.keysPressed[KeyEvent.VK_W]) {
-            if(ycollision) yspeed = -7;
+            if(ycollision){
+                yspeed = -7;
+                cooldown = 10;
+            }
+            else if(xcollision && cooldown <= 0){
+                yspeed = -7;
+                xspeed = (int) (-xspeed * 1.4);
+                gravityDecelerator = 2;
+                cooldown = 27;
+            }
         }
-        if(frameCount%3==0) yspeed+=gravity;
+        if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
+
+        if(xspeed!=0) holdingOn = true;
+
 
         //Horizontal collision
         xcollision = false;
@@ -82,12 +102,14 @@ public class Player {
             }
         }
 
+        gravityDecelerator = 1;
+        if(xcollision && holdingOn){
+            gravityDecelerator = 3;
+        }
     }
 
     public void draw(Graphics2D g2){
         g2.setColor(Color.BLACK);
         g2.fillRect(x,y,width,height);
-        g2.setColor(Color.RED);
-        g2.drawRect(hitBox.x, hitBox.y, width, height);
     }
 }

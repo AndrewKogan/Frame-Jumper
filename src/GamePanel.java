@@ -76,6 +76,9 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void update(){
         player.update();
         enemy.update(player);
+        for(int i = 0; i < walls.size(); i++){
+            walls.get(i).update();
+        }
 
         if (testInteractable.playerInTrigger()) {
             if (KeyInputs.keysPressed[KeyEvent.VK_E])
@@ -132,12 +135,12 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     public void makeWalls(){
         for(int i = 50; i < 650; i+=50){
-            walls.add(new Wall(i,600,50,50));
+            walls.add(new Wall(i,600,50,50, player));
         }
-        walls.add(new Wall(50,550,50,50));
-        walls.add(new Wall(50,500,50,50));
-        walls.add(new Wall(50,450,50,50));
-        walls.add(new Wall(450,550,50,50));
+        walls.add(new Wall(50,550,50,50, player));
+        walls.add(new Wall(50,500,50,50, player));
+        walls.add(new Wall(50,450,50,50, player));
+        walls.add(new Wall(450,550,50,50, player));
     }
 
     @Override

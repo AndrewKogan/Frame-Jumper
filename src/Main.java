@@ -13,7 +13,6 @@ public class Main {
         window.pack();
 
         window.setLocationRelativeTo(null);
-        window.setSize(new Dimension(700, 740));
         window.setVisible(true);
 
         gamePanel.startGameThread();

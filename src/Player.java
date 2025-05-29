@@ -11,9 +11,10 @@ public class Player {
     int width;
     int height;
 
-    double xspeed;
-    double gravity;
-    double yspeed;
+    int xspeed;
+    int gravity;
+    int yspeed;
+    int frameCount;
 
     boolean ycollision;
     boolean xcollision;
@@ -28,13 +29,15 @@ public class Player {
         xcollision = false;
         xspeed = 0;
         yspeed = 0;
-        gravity = 0.3;
+        gravity = 1;
         width = 50;
         height = 100;
         hitBox = new Rectangle(x,y,width,height);
+        frameCount = 0;
     }
 
     public void update() {
+        frameCount++;
         if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
             if (KeyInputs.keysPressed[KeyEvent.VK_D]) {
                 xspeed = 5;
@@ -49,11 +52,11 @@ public class Player {
         if (KeyInputs.keysPressed[KeyEvent.VK_W]) {
             if(ycollision) yspeed = -7;
         }
-        yspeed+=gravity;
+        if(frameCount%3==0) yspeed+=gravity;
 
         //Horizontal collision
         xcollision = false;
-        hitBox.x+=xspeed;
+        hitBox.x=x+xspeed;
         for(Wall wall: panel.walls) {
             if (hitBox.intersects(wall.hitBox)) {
                 hitBox.x -= xspeed;
@@ -67,7 +70,7 @@ public class Player {
 
         //Vertical collision
         ycollision = false;
-        hitBox.y+=yspeed;
+        hitBox.y=y+yspeed;
         for (Wall wall : panel.walls) {
             if (hitBox.intersects(wall.hitBox)) {
                 hitBox.y -= yspeed;
@@ -79,12 +82,12 @@ public class Player {
             }
         }
 
-        x+=xspeed;
-        y+=yspeed;
     }
 
     public void draw(Graphics2D g2){
         g2.setColor(Color.BLACK);
         g2.fillRect(x,y,width,height);
+        g2.setColor(Color.RED);
+        g2.drawRect(hitBox.x, hitBox.y, width, height);
     }
 }

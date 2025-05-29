@@ -30,6 +30,12 @@ public class Interactable {
         return triggerArea.intersects(playerReference.hitBox);
     }
 
+    public void update(){
+        x -= playerReference.xspeed;
+        y -= playerReference.yspeed;
+        triggerArea = new Rectangle(x, y, image.getWidth(), image.getHeight());
+    }
+
     public void draw(Graphics2D g2) {
         g2.drawImage(image, x, y, null);
         if (playerInTrigger()) {

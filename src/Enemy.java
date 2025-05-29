@@ -11,9 +11,10 @@ public class Enemy {
     int width;
     int height;
 
-    double xspeed;
-    double gravity;
-    double yspeed;
+    int xspeed;
+    int gravity;
+    int yspeed;
+    int frameCount;
 
     boolean ycollision;
     boolean xcollision;
@@ -32,15 +33,17 @@ public class Enemy {
         xcollision = false;
         xspeed = 0;
         yspeed = 0;
-        gravity = 0.3;
+        gravity = 1;
         width = 50;
         height = 50;
+        frameCount = 0;
         hitBox = new Rectangle(x,y,width,height);
         touchedPlayer = false;
         invincibilityFrames = 0;
     }
 
     public void update(Player player) {
+        frameCount++;
         if (player.x > x) {
             xspeed = 2;
         }
@@ -50,11 +53,12 @@ public class Enemy {
         else{
             xspeed = 0;
         }
-        yspeed+=gravity;
-
+        if(frameCount%3==0) {
+            yspeed += gravity;
+        }
         //Horizontal collision
         xcollision = false;
-        hitBox.x+=xspeed;
+        hitBox.x=x+xspeed;
         for (Wall wall : panel.walls) {
             if (hitBox.intersects(wall.hitBox)) {
                 hitBox.x -= xspeed;
@@ -68,7 +72,7 @@ public class Enemy {
 
         //Vertical collision
         ycollision = false;
-        hitBox.y+=yspeed;
+        hitBox.y=y+yspeed;
         for (Wall wall : panel.walls) {
             if (hitBox.intersects(wall.hitBox)) {
                 hitBox.y -= yspeed;
@@ -91,12 +95,14 @@ public class Enemy {
         invincibilityFrames--;
         if(invincibilityFrames<=0) touchedPlayer = false;
 
-        x+=xspeed;
-        y+=yspeed;
+        x+=xspeed-player.xspeed;
+        y+=yspeed-player.yspeed;
     }
 
     public void draw(Graphics2D g2){
         g2.setColor(Color.RED);
         g2.fillRect(x,y,width,height);
+        g2.setColor(Color.BLACK);
+        g2.drawRect(hitBox.x, hitBox.y, width, height);
     }
 }

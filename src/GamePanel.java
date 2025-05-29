@@ -76,6 +76,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void update(){
         player.update();
         enemy.update(player);
+        testInteractable.update();
         for(int i = 0; i < walls.size(); i++){
             walls.get(i).update();
         }

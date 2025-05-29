@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
-public class GamePanel extends JPanel implements Runnable, ActionListener, GameParent {
+public class GamePanel extends JPanel implements Runnable, ActionListener {
     MouseInputs mouseH = new MouseInputs();
     KeyInputs keyH = new KeyInputs();
 

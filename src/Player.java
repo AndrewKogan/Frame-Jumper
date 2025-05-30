@@ -1,6 +1,7 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+import static java.lang.Math.abs;
 import static java.lang.Math.signum;
 
 public class Player {
@@ -22,6 +23,8 @@ public class Player {
 
     boolean holdingOn;
     int gravityDecelerator;
+    boolean wallJumpedRight;
+    boolean wallJumpedLeft;
 
     Rectangle hitBox;
 
@@ -41,38 +44,51 @@ public class Player {
         cooldown = 0;
         holdingOn = false;
         gravityDecelerator = 1;
+        wallJumpedRight = false;
+        wallJumpedLeft = false;
     }
 
     public void update() {
         frameCount++;
         cooldown--;
-        if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A]) && cooldown < 20) {
-            if (KeyInputs.keysPressed[KeyEvent.VK_D]) {
+
+        if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
+
+
+        if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
+            if (KeyInputs.keysPressed[KeyEvent.VK_D] && !wallJumpedRight) {
                 xspeed = 5;
             }
-            else if (KeyInputs.keysPressed[KeyEvent.VK_A]) {
+            else if (KeyInputs.keysPressed[KeyEvent.VK_A] && !wallJumpedLeft) {
                 xspeed = -5;
             }
-            else{
+            else if (!(wallJumpedLeft || wallJumpedRight)){
                 xspeed = 0;
             }
         }
-        if (KeyInputs.keysPressed[KeyEvent.VK_W]) {
-            if(ycollision){
-                yspeed = -7;
-                cooldown = 10;
-            }
-            else if(xcollision && cooldown <= 0){
-                yspeed = -7;
-                xspeed = (int) (-xspeed * 1.4);
-                gravityDecelerator = 2;
-                cooldown = 27;
-            }
-        }
-        if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
 
         if(xspeed!=0) holdingOn = true;
 
+        if (KeyInputs.keysPressed[KeyEvent.VK_W]) {
+            if(ycollision){
+                yspeed = -7;
+                cooldown = 20;
+            }
+            else if(xcollision && cooldown <= 0){
+                yspeed = -7;
+                if(xspeed > 0){
+                    wallJumpedRight = true;
+                    wallJumpedLeft = false;
+                }
+                if(xspeed < 0){
+                    wallJumpedLeft = true;
+                    wallJumpedRight = false;
+                }
+                xspeed = (int) (-xspeed * 0.7);
+
+                gravityDecelerator = 1;
+            }
+        }
 
         //Horizontal collision
         xcollision = false;
@@ -106,10 +122,16 @@ public class Player {
         if(xcollision && holdingOn){
             gravityDecelerator = 3;
         }
+        if(ycollision){
+            wallJumpedLeft = false;
+            wallJumpedRight = false;
+        }
     }
 
     public void draw(Graphics2D g2){
         g2.setColor(Color.BLACK);
         g2.fillRect(x,y,width,height);
+        g2.setColor(Color.RED);
+        g2.drawRect(hitBox.x, hitBox.y, width, height);
     }
 }

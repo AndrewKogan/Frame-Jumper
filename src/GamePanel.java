@@ -143,11 +143,19 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         walls.add(new Wall(50,450,50,50, player));
         walls.add(new Wall(450,550,50,50, player));
 
+        walls.add(new Wall(100,550,50,50, player));
+        walls.add(new Wall(100,500,50,50, player));
+
+        walls.add(new Wall(150,550,50,50, player));
+
         for(int i = 750; i < 1450; i+=101){
             walls.add(new Wall(i,600,50,50, player));
         }
 
         walls.add(new Wall(-50,700,100,50, player));
+
+        walls.add(new Wall(-100,450,50,200, player));
+        walls.add(new Wall(-150,250,50,100, player));
     }
 
     @Override

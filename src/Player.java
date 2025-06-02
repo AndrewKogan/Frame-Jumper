@@ -54,7 +54,6 @@ public class Player {
 
         if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
 
-
         if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
             if (KeyInputs.keysPressed[KeyEvent.VK_D] && !wallJumpedRight) {
                 xspeed = 5;

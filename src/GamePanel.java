@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     Enemy enemy;
     ArrayList<Wall> walls = new ArrayList<>();
 
-    private static int FPS = 60;
+    private final static int FPS = 60;
 
     private Thread gameThread;
 
@@ -76,6 +76,11 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void update(){
         player.update();
         enemy.update(player);
+
+        for (Wall wall : walls)
+            wall.update();
+
+        testInteractable.update();
 
         if (testInteractable.playerInTrigger()) {
             if (KeyInputs.keysPressed[KeyEvent.VK_E])

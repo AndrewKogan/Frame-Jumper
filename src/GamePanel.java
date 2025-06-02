@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     public GamePanel() {
         player = new Player(400,300,this);
-        enemy = new Enemy(200,400,this);
+        //enemy = new Enemy(200,400,this);
         makeWalls();
         this.setPreferredSize(new Dimension(700, 700));
         this.setBackground(Color.LIGHT_GRAY);
@@ -75,7 +75,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     public void update(){
         player.update();
-        enemy.update(player);
+        //enemy.update(player);
 
         for (Wall wall : walls)
             wall.update();
@@ -125,7 +125,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         cutsceneContinueButton.setLocation(300, 600);
     }
 
-    private void paintLevel(Graphics g) {
+    public void paintLevel(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
         enemy.draw(g2);

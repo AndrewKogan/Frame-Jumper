@@ -81,11 +81,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
             wall.update();
 
         testInteractable.update();
-
-        if (testInteractable.playerInTrigger()) {
-            if (KeyInputs.keysPressed[KeyEvent.VK_E])
-                testInteractable.interact();
-        }
     }
 
     public void paintComponent(Graphics g){
@@ -144,6 +139,10 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         walls.add(new Wall(50,450,50,50, player));
         walls.add(new Wall(450,550,50,50, player));
         walls.add(new Wall(200, 400, 200, 50, player));
+    }
+
+    public void reset() {
+
     }
 
     @Override

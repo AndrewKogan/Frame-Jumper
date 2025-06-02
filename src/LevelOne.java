@@ -18,7 +18,6 @@ public class LevelOne extends GamePanel {
     public void paintLevel(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
-        enemy.draw(g2);
         for (Wall wall : walls) {
             wall.draw(g2);
         }
@@ -26,6 +25,11 @@ public class LevelOne extends GamePanel {
 
     @Override
     public void makeWalls() {
+
+    }
+
+    @Override
+    public void reset() {
 
     }
 }

@@ -76,7 +76,7 @@ public class Player {
                 cooldown = 20;
             }
             else if(xcollision && cooldown <= 0 && wallCollided.wallJumpable){
-                yspeed = -7;
+                yspeed = -10;
                 if(xspeed > 0){
                     wallJumpedRight = true;
                     wallJumpedLeft = false;

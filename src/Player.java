@@ -25,6 +25,7 @@ public class Player {
     int gravityDecelerator;
     boolean wallJumpedRight;
     boolean wallJumpedLeft;
+    Wall wallCollided;
 
     Rectangle hitBox;
 
@@ -46,6 +47,7 @@ public class Player {
         gravityDecelerator = 1;
         wallJumpedRight = false;
         wallJumpedLeft = false;
+        wallCollided = new Wall(0,0,0,0,this,false);
     }
 
     public void update() {
@@ -73,7 +75,7 @@ public class Player {
                 yspeed = -7;
                 cooldown = 20;
             }
-            else if(xcollision && cooldown <= 0){
+            else if(xcollision && cooldown <= 0 && wallCollided.wallJumpable){
                 yspeed = -7;
                 if(xspeed > 0){
                     wallJumpedRight = true;
@@ -97,6 +99,7 @@ public class Player {
                 hitBox.x -= xspeed;
                 while (!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
                 hitBox.x -= Math.signum(xspeed);
+                wallCollided = wall;
                 xcollision = true;
                 xspeed = 0;
                 x = hitBox.x;

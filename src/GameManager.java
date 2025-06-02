@@ -11,7 +11,7 @@ public class GameManager {
         window.setResizable(true);
         window.setTitle("Frame Jumper");
 
-        levels = new GamePanel[] {new GamePanel()};
+        levels = new GamePanel[] {new LevelOne()};
 
         GamePanel gamePanel = levels[0];
         window.add(gamePanel);

@@ -16,10 +16,9 @@ public class Cutscene implements ActionListener {
     }
 
     public void play() {
-        Desktop desktop = Desktop.getDesktop();
         try {
             URI oURL = new URI(url);
-            desktop.browse(oURL);
+            Desktop.getDesktop().browse(oURL);
             timer.start();
             gamePanel.setPanelToDisplay(Panel.CUTSCENE_PLAYING);
         } catch (Exception e) {

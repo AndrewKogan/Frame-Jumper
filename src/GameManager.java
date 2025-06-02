@@ -10,6 +10,17 @@ public class GameManager {
         window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setResizable(true);
         window.setTitle("Frame Jumper");
+
+        levels = new GamePanel[] {new GamePanel()};
+
+        GamePanel gamePanel = levels[0];
+        window.add(gamePanel);
+        window.pack();
+
+        window.setLocationRelativeTo(null);
+        window.setVisible(true);
+
+        gamePanel.startGameThread();
     }
 
     public static void nextLevel() {

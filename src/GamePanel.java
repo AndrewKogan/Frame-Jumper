@@ -13,7 +13,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     Enemy enemy;
     ArrayList<Wall> walls = new ArrayList<>();
 
-    public static int FPS = 60;
+    private static int FPS = 60;
 
     private Thread gameThread;
 
@@ -76,10 +76,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void update(){
         player.update();
         enemy.update(player);
-        testInteractable.update();
-        for(int i = 0; i < walls.size(); i++){
-            walls.get(i).update();
-        }
 
         if (testInteractable.playerInTrigger()) {
             if (KeyInputs.keysPressed[KeyEvent.VK_E])
@@ -142,20 +138,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         walls.add(new Wall(50,500,50,50, player));
         walls.add(new Wall(50,450,50,50, player));
         walls.add(new Wall(450,550,50,50, player));
-
-        walls.add(new Wall(100,550,50,50, player));
-        walls.add(new Wall(100,500,50,50, player));
-
-        walls.add(new Wall(150,550,50,50, player));
-
-        for(int i = 750; i < 1450; i+=101){
-            walls.add(new Wall(i,600,50,50, player));
-        }
-
-        walls.add(new Wall(-50,700,100,50, player));
-
-        walls.add(new Wall(-100,450,50,200, player));
-        walls.add(new Wall(-150,250,50,100, player));
+        walls.add(new Wall(200, 400, 200, 50, player));
     }
 
     @Override

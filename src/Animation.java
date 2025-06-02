@@ -8,10 +8,10 @@ public class Animation implements ActionListener {
     private Timer timer;
     private int currentFrame;
 
-    public Animation(ArrayList<BufferedImage> frames) {
+    public Animation(ArrayList<BufferedImage> frames, int frameRate) {
         this.frames = frames;
         currentFrame = 0;
-        timer = new Timer(1000 / GamePanel.FPS, this);
+        timer = new Timer(1000 / frameRate, this);
         timer.start();
     }
 

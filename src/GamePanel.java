@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     private Interactable testInteractable;
 
     public GamePanel() {
-        player = new Player(400,300,this);
+        player = new Player(350,300,this);
         //enemy = new Enemy(200,400,this);
         makeWalls();
         this.setPreferredSize(new Dimension(700, 700));
@@ -155,7 +155,10 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     }
 
     public void reset() {
+        walls.clear();
+        makeWalls();
 
+        player = new Player(350,300,this);
     }
 
     @Override

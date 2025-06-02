@@ -30,6 +30,6 @@ public class LevelOne extends GamePanel {
 
     @Override
     public void reset() {
-
+        super.reset();
     }
 }

@@ -38,4 +38,9 @@ public class LevelOne extends GamePanel {
 //        new LevelEndInteractable(-540,-350,"","Press E to end the level", player);
 //        walls.add(new Wall(-540,-300,200,50,player,false));
     }
+
+    @Override
+    public void reset() {
+        super.reset();
+    }
 }

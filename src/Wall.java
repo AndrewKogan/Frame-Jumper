@@ -18,7 +18,7 @@ public class Wall {
         this.player = player;
         this.wallJumpable = wallJumpable;
 
-        hitBox =  new Rectangle(x,y,width,height);
+        hitBox = new Rectangle(x,y,width,height);
     }
 
     public void update() {

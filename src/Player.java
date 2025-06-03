@@ -128,6 +128,9 @@ public class Player {
             wallJumpedLeft = false;
             wallJumpedRight = false;
         }
+
+        if (KeyInputs.keysPressed[KeyEvent.VK_ESCAPE])
+            panel.reset();
     }
 
     public void draw(Graphics2D g2){

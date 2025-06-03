@@ -3,6 +3,7 @@ import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 
 public class Interactable extends TriggerArea {
     private BufferedImage image;
@@ -14,6 +15,12 @@ public class Interactable extends TriggerArea {
     public Interactable(int x, int y, String imagePath, String tooltip, Player p) {
         super(x, y, imagePath, p);
         triggerAreaText = tooltip;
+        playerReference = p;
+        try {
+            image = ImageIO.read(new File(imagePath));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

@@ -12,6 +12,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     Player player;
     Enemy enemy;
     ArrayList<Wall> walls = new ArrayList<>();
+    ArrayList<Spikes> spikes = new ArrayList<>();
 
     private final static int FPS = 60;
 
@@ -30,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         player = new Player(350,400,this);
         //enemy = new Enemy(200,400,this);
         makeWalls();
+        makeSpikes();
         this.setPreferredSize(new Dimension(700, 700));
         this.setBackground(Color.LIGHT_GRAY);
         this.setDoubleBuffered(true);
@@ -132,35 +134,17 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         }
     }
 
-    public void makeWalls(){
-        for(int i = 50; i < 650; i+=50){
-            walls.add(new Wall(i,600,50,50, player, false));
-        }
-        walls.add(new Wall(50,550,50,50, player, true));
-        walls.add(new Wall(50,500,50,50, player, true));
-        walls.add(new Wall(50,450,50,50, player, true));
-        walls.add(new Wall(450,550,50,50, player, false));
-
-        walls.add(new Wall(100,550,50,50, player, false));
-        walls.add(new Wall(100,500,50,50, player, false));
-
-        walls.add(new Wall(150,550,50,50, player, false));
-
-        for(int i = 750; i < 1450; i+=101){
-            walls.add(new Wall(i,600,50,50, player, false));
-        }
-
-        walls.add(new Wall(-50,700,100,50, player, false));
-
-        walls.add(new Wall(-100,450,50,200, player, true));
-        walls.add(new Wall(-150,250,50,100, player, true));
-    }
+    public void makeWalls(){}
+    public void makeSpikes(){}
 
     public void reset() {
-        walls.clear();
-        makeWalls();
 
         player = new Player(350,300,this);
+
+        walls.clear();
+        makeWalls();
+        spikes.clear();
+        makeSpikes();
     }
 
     @Override

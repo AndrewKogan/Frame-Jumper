@@ -10,9 +10,8 @@ public class LevelOne extends GamePanel {
     public void update() {
         player.update();
         levelEnd.update();
-        for (Wall wall : walls)
-            wall.update();
-        for (Spikes spike : spikes) spike.update();
+        for (Wall wall : walls) wall.update();
+        for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
     }
 
     @Override
@@ -20,8 +19,8 @@ public class LevelOne extends GamePanel {
         Graphics2D g2 = (Graphics2D)g;
         player.draw(g2);
         levelEnd.draw(g2);
-        for (Wall wall : walls) wall.draw(g2);
         for (Spikes spike : spikes) spike.draw(g2);
+        for (Wall wall : walls) wall.draw(g2);
     }
 
     @Override
@@ -41,11 +40,17 @@ public class LevelOne extends GamePanel {
 
     @Override
     public void makeSpikes(){
-        spikes.add(new Spikes(284,500,player));
+        for(int i = 250; i > -700; i-=50){
+            spikes.add(new Spikes(i,524,player));
+        }
+        for(int i = -50; i > -700; i-=50){
+            spikes.add(new Spikes(i,54,player));
+        }
     }
 
     @Override
     public void reset() {
         super.reset();
+        levelEnd = new LevelEndInteractable(-940,-420,"src\\images\\test.jpg","Press E to end the level", player);
     }
 }

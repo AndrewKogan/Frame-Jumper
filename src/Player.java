@@ -136,7 +136,5 @@ public class Player {
     public void draw(Graphics2D g2){
         g2.setColor(Color.BLACK);
         g2.fillRect(x,y,width,height);
-        g2.setColor(Color.RED);
-        g2.drawRect(hitBox.x, hitBox.y, width, height);
     }
 }

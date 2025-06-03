@@ -6,5 +6,6 @@ public class LevelEndInteractable extends Interactable {
     @Override
     public void interact() {
         GameManager.nextLevel();
+        interactCooldown = 20;
     }
 }

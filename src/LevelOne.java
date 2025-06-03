@@ -8,19 +8,19 @@ public class LevelOne extends GamePanel {
 
     @Override
     public void update() {
-        player.update();
         levelEnd.update();
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
+        player.update();
     }
 
     @Override
     public void paintLevel(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
-        player.draw(g2);
         levelEnd.draw(g2);
         for (Spikes spike : spikes) spike.draw(g2);
         for (Wall wall : walls) wall.draw(g2);
+        player.draw(g2);
     }
 
     @Override

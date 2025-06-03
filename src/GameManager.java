@@ -24,8 +24,12 @@ public class GameManager {
     }
 
     public static void nextLevel() {
-        window.remove(levels[level]);
+        window.dispose();
 
+        window = new JFrame();
+        window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        window.setResizable(true);
+        window.setTitle("Frame Jumper");
         level++;
         GamePanel gamePanel = levels[level];
         window.add(gamePanel);

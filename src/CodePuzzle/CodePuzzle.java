@@ -15,7 +15,7 @@ public class CodePuzzle {
     public CodePuzzle() {
         String username = System.getProperty("user.name");
         try {
-            hiddenFile = new File("C:\\Users\\" + username + "\\Desktop\\I SEE YOU.txt");
+            hiddenFile = new File("C:\\Users\\" + username + "\\Downloads\\I SEE YOU.txt");
             if(hiddenFile.createNewFile()) {
                 System.out.println("File created");
             } else {
@@ -29,7 +29,7 @@ public class CodePuzzle {
             writer.write(code);
             writer.close();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println(e.getMessage());
         }
 
         window = new JFrame();

@@ -14,7 +14,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     ArrayList<Wall> walls = new ArrayList<>();
     ArrayList<Spikes> spikes = new ArrayList<>();
 
-    private final static int FPS = 60;
+    public final static int FPS = 60;
 
     private Thread gameThread;
 

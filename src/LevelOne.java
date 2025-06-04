@@ -3,7 +3,7 @@ import java.awt.*;
 public class LevelOne extends GamePanel {
     public LevelOne() {
         super();
-        levelEnd = new LevelEndInteractable(-940,-420,"src\\images\\test.jpg","Press E to end the level", player);
+        levelEnd = new LevelEndInteractable(-940,-420,"src\\images\\test.jpg", player);
     }
 
     @Override
@@ -51,6 +51,6 @@ public class LevelOne extends GamePanel {
     @Override
     public void reset() {
         super.reset();
-        levelEnd = new LevelEndInteractable(-940,-420,"src\\images\\test.jpg","Press E to end the level", player);
+        levelEnd = new LevelEndInteractable(-940,-420,"src\\images\\test.jpg", player);
     }
 }

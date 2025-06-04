@@ -2,7 +2,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyInputs implements KeyListener {
-    public final static boolean[] keysPressed = new boolean[128];
+    public final static boolean[] keysPressed = new boolean[200];
 
     @Override
     public void keyTyped(KeyEvent e) {

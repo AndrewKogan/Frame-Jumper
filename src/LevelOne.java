@@ -8,10 +8,10 @@ public class LevelOne extends GamePanel {
 
     @Override
     public void update() {
+        player.update();
         levelEnd.update();
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
-        player.update();
     }
 
     @Override
@@ -30,7 +30,7 @@ public class LevelOne extends GamePanel {
         walls.add(new Wall(-250,500,100,50,player,false));
         walls.add(new Wall(-475,330,200,50,player,false));
         walls.add(new Wall(-630,400,100,50,player,false));
-        walls.add(new Wall(-200,250,500,50,player,false));
+        walls.add(new Wall(-200,260,500,50,player,false));
         walls.add(new Wall(350,50,50,150,player,true));
         walls.add(new Wall(0,30,200,50,player,false));
         walls.add(new Wall(-250,-170,200,50,player,false));

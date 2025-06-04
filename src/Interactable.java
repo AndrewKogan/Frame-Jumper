@@ -11,6 +11,10 @@ public class Interactable extends TriggerArea {
         triggerAreaText = tooltip;
     }
 
+    public Interactable(int x, int y, String imagePath, Player p) {
+        this(x, y, imagePath, "Press 'E' to interact!", p);
+    }
+
     @Override
     public void update(){
         x -= playerReference.xspeed;

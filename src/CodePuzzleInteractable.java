@@ -2,8 +2,8 @@ import CodePuzzle.CodePuzzle;
 
 public class CodePuzzleInteractable extends Interactable {
 
-    public CodePuzzleInteractable(int x, int y, String imagePath, String tooltip, Player p) {
-        super(x, y, imagePath, tooltip, p);
+    public CodePuzzleInteractable(int x, int y, String imagePath, Player p) {
+        super(x, y, imagePath, p);
     }
 
     @Override

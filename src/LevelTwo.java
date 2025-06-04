@@ -38,8 +38,11 @@ public class LevelTwo extends GamePanel {
 
     @Override
     public void makeSpikes(){
-        for(int i = 225; i > -400; i-=50){
-            spikes.add(new Spikes(i,110,player));
+        for(int i = 225; i > -200; i-=50){
+            spikes.add(new Spikes(i,110,player, 0));
+        }
+        for(int i = 50; i < 150; i+=50){
+            spikes.add(new Spikes(1300,i,player, 90));
         }
     }
 

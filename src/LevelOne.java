@@ -41,10 +41,10 @@ public class LevelOne extends GamePanel {
     @Override
     public void makeSpikes(){
         for(int i = 250; i > -700; i-=50){
-            spikes.add(new Spikes(i,524,player));
+            spikes.add(new Spikes(i,524,player, 0));
         }
         for(int i = -50; i > -700; i-=50){
-            spikes.add(new Spikes(i,54,player));
+            spikes.add(new Spikes(i,54,player, 0));
         }
     }
 

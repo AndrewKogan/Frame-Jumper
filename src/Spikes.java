@@ -1,6 +1,6 @@
 public class Spikes extends TriggerArea {
-    public Spikes(int x, int y, Player p) {
-        super(x, y, "src\\images\\spikes.png", p);
+    public Spikes(int x, int y, String imagePath, Player p) {
+        super(x, y, imagePath, p);
     }
 
     @Override

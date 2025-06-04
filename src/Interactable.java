@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 public class Interactable extends TriggerArea {
     private String triggerAreaText;
 
-    protected int interactCooldown;
+    private int interactCooldown;
 
     public Interactable(int x, int y, String imagePath, String tooltip, Player p) {
         super(x, y, imagePath, p);
@@ -32,7 +32,6 @@ public class Interactable extends TriggerArea {
 
     //All subclasses must override this method
     protected void interact() {
-        System.out.println("Interacted with!");
         interactCooldown = 20;
     }
 }

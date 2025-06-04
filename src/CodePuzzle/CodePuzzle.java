@@ -11,11 +11,13 @@ public class CodePuzzle {
     private String code = "";
 
     private JFrame window;
+    public static int usage = 0;
 
-    public CodePuzzle() {
+    public CodePuzzle(int usage) {
+        this.usage = usage;
         String username = System.getProperty("user.name");
         try {
-            hiddenFile = new File("C:\\Users\\" + username + "\\Downloads\\I SEE YOU.txt");
+            hiddenFile = new File("C:\\Users\\" + username + "\\I SEE YOU.txt");
             if(hiddenFile.createNewFile()) {
                 System.out.println("File created");
             } else {

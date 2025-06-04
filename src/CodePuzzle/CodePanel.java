@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 
 public class CodePanel extends JPanel implements ActionListener {
     private JButton button0, button1, button2, button3, button4, button5, button6, button7, button8, button9;
@@ -101,5 +102,6 @@ public class CodePanel extends JPanel implements ActionListener {
         }
         else if (source == cancelButton)
             puzzleReference.onQuit();
+            CodePuzzle.usage--;
     }
 }

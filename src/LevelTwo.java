@@ -4,11 +4,13 @@ public class LevelTwo extends GamePanel {
     public LevelTwo() {
         super();
 //        levelEnd = new LevelEndInteractable(,,"src\\images\\test.jpg","Press E to end the level", player);
+        codePuzzleStart = new CodePuzzleInteractable(763,408,"src\\images\\test.jpg",player);
     }
 
     @Override
     public void update() {
 //        levelEnd.update();
+        codePuzzleStart.update();
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
         player.update();
@@ -18,6 +20,7 @@ public class LevelTwo extends GamePanel {
     public void paintLevel(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
 //        levelEnd.draw(g2);
+        codePuzzleStart.draw(g2);
         for (Spikes spike : spikes) spike.draw(g2);
         for (Wall wall : walls) wall.draw(g2);
         player.draw(g2);
@@ -38,17 +41,21 @@ public class LevelTwo extends GamePanel {
 
     @Override
     public void makeSpikes(){
-        for(int i = 225; i > -200; i-=50){
-            spikes.add(new Spikes(i,110,player, 0));
+        for(int i = 180; i > -200; i-=50){
+            spikes.add(new Spikes(i,110,"src\\images\\spikes.png",player));
         }
         for(int i = 50; i < 150; i+=50){
-            spikes.add(new Spikes(1300,i,player, 90));
+            spikes.add(new Spikes(1300,i,"src\\images\\leftspikes.png",player));
+        }
+        for(int i = 448; i < 1125; i+=46){
+            spikes.add(new Spikes(i,156,"src\\images\\spikes.png",player));
         }
     }
 
     @Override
     public void reset() {
         super.reset();
+        codePuzzleStart = new CodePuzzleInteractable(763,408,"src\\images\\test.jpg",player);
 //        levelEnd = new LevelEndInteractable(,,"src\\images\\test.jpg","Press E to end the level", player);
     }
 }

@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     private Interactable testInteractable;
 
     LevelEndInteractable levelEnd;
+    CodePuzzleInteractable codePuzzleStart;
 
     public GamePanel() {
         player = new Player(350,400,this);

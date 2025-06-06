@@ -64,19 +64,25 @@ public class CodePanel extends JPanel implements ActionListener {
     public void paint(Graphics g) {
         super.paint(g);
 
-        button1.setLocation(100, 50);
-        button2.setLocation(200, 50);
-        button3.setLocation(300, 50);
-        button4.setLocation(100, 150);
-        button5.setLocation(200, 150);
-        button6.setLocation(300, 150);
-        button7.setLocation(100, 250);
-        button8.setLocation(200, 250);
-        button9.setLocation(300, 250);
-        button0.setLocation(200, 350);
+        button1.setLocation(100, 100);
+        button2.setLocation(200, 100);
+        button3.setLocation(300, 100);
+        button4.setLocation(100, 200);
+        button5.setLocation(200, 200);
+        button6.setLocation(300, 200);
+        button7.setLocation(100, 300);
+        button8.setLocation(200, 300);
+        button9.setLocation(300, 300);
+        button0.setLocation(200, 400);
 
-        submitButton.setLocation(50, 400);
-        cancelButton.setLocation(300, 400);
+        submitButton.setLocation(50, 450);
+        cancelButton.setLocation(300, 450);
+
+        g.setFont(new Font("Digital-7", Font.PLAIN, 36));
+        if (!attempt.isEmpty()) g.drawString(attempt.charAt(0) + "", 100, 50);
+        if (attempt.length() >= 2) g.drawString(attempt.charAt(1) + "", 175, 50);
+        if (attempt.length() >= 3) g.drawString(attempt.charAt(2) + "", 250, 50);
+        if (attempt.length() >= 4) g.drawString(attempt.charAt(3) + "", 325, 50);
     }
 
     @Override
@@ -102,6 +108,7 @@ public class CodePanel extends JPanel implements ActionListener {
         }
         else if (source == cancelButton)
             puzzleReference.onQuit();
-            //CodePuzzle.usage--;
+
+        repaint();
     }
 }

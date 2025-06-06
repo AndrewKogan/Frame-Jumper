@@ -8,7 +8,7 @@ public class GameManager {
     public static void startGame() {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        window.setResizable(true);
+        window.setResizable(false);
         window.setTitle("Frame Jumper");
 
         levels = new GamePanel[] {
@@ -30,7 +30,7 @@ public class GameManager {
 
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        window.setResizable(true);
+        window.setResizable(false);
         window.setTitle("Frame Jumper");
         level++;
         GamePanel gamePanel = levels[level];

@@ -1,4 +1,5 @@
 import java.awt.*;
+import CodePuzzle.CodePuzzle;
 
 public class LevelTwo extends GamePanel {
     public LevelTwo() {
@@ -10,6 +11,7 @@ public class LevelTwo extends GamePanel {
     @Override
     public void update() {
 //        levelEnd.update();
+        if(CodePuzzle.solved) walls.get(9).open();
         codePuzzleStart.update();
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
@@ -21,7 +23,7 @@ public class LevelTwo extends GamePanel {
         Graphics2D g2 = (Graphics2D)g;
 //        levelEnd.draw(g2);
         codePuzzleStart.draw(g2);
-        for (Spikes spike : spikes) spike.draw(g2);
+        for (int i = 0; i < spikes.size(); i++) spikes.get(i).draw(g2);
         for (Wall wall : walls) wall.draw(g2);
         player.draw(g2);
     }
@@ -37,6 +39,12 @@ public class LevelTwo extends GamePanel {
         walls.add(new Wall(1325,50,50,350,player,false));
         walls.add(new Wall(1325,400,50,100,player,true));
         walls.add(new Wall(725,600,300,50,player,false));
+        if(CodePuzzle.solved){
+            walls.add(new Door(675,250,50,250,player,false));
+            Door puzzleDoor = (Door) walls.get(9);
+            puzzleDoor.opened = true;
+        }
+        else walls.add(new Door(675,350,50,250,player,false));
     }
 
     @Override
@@ -47,7 +55,10 @@ public class LevelTwo extends GamePanel {
         for(int i = 50; i < 150; i+=50){
             spikes.add(new Spikes(1300,i,"src\\images\\leftspikes.png",player));
         }
-        for(int i = 448; i < 1125; i+=46){
+        for(int i = 400; i < 550; i+=50){
+            spikes.add(new Spikes(430,i,"src\\images\\leftspikes.png",player));
+        }
+        for(int i = 448; i < 1080; i+=46){
             spikes.add(new Spikes(i,156,"src\\images\\spikes.png",player));
         }
     }

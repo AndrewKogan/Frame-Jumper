@@ -33,4 +33,5 @@ public class Wall {
         if(wallJumpable) g2.setColor(Color.GREEN);
         g2.fillRect(x+1,y+1,width-2,height-2);
     }
+    public void open(){}
 }

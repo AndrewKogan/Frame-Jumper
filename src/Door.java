@@ -1,7 +1,10 @@
+import java.awt.*;
+
 public class Door extends Wall {
-    private boolean opened;
-    private boolean isOpening;
-    private final int startY;
+    public boolean opened;
+    public boolean isOpening;
+    private int startY;
+    private int raiseHeight;
 
     public Door(int x, int y, int width, int height, Player player, boolean wallJumpable) {
         super(x, y, width, height, player, wallJumpable);
@@ -10,18 +13,26 @@ public class Door extends Wall {
 
     @Override
     public void update() {
-        super.update();
+        if(!isOpening) super.update();
+        else{
+            x -= player.xspeed;
+            hitBox =  new Rectangle(x,y,width,height);
+        }
+        if(!isOpening && !opened){
+            startY = y;
+        }
         if (isOpening) {
-            y -= height / 60;
-            if (y <= startY - height) {
-                opened = true;
-                isOpening = false;
-            }
+            y -= 100 / 60;
+        }
+        if (y <= (startY - 100)) {
+            opened = true;
+            isOpening = false;
         }
     }
 
     public void open() {
-        if (!opened)
+        if (!opened){
             isOpening = true;
+        }
     }
 }

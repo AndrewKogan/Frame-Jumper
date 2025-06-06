@@ -12,9 +12,10 @@ public class CodePuzzle {
 
     private JFrame window;
     public static int usage = 0;
+    public static boolean solved = false;
 
     public CodePuzzle(int usage) {
-        this.usage = usage;
+        CodePuzzle.usage = usage;
         String username = System.getProperty("user.name");
         try {
             hiddenFile = new File("C:\\Users\\" + username + "\\I SEE YOU.txt");
@@ -53,6 +54,8 @@ public class CodePuzzle {
 
     public void onPuzzleSolved() {
         System.out.println("Solved");
+        CodePuzzle.usage=10;
+        CodePuzzle.solved = true;
         onQuit();
     }
 

@@ -101,7 +101,7 @@ public class CodePanel extends JPanel implements ActionListener {
             else if (source == button9) attempt += "9";
         }
 
-        if (source == submitButton) {
+        if (source == submitButton && attempt.length() == 4) {
             if (puzzleReference.checkPuzzleSolution(attempt))
                 puzzleReference.onPuzzleSolved();
             attempt = "";

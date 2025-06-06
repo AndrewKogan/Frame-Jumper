@@ -15,6 +15,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     Enemy enemy;
     ArrayList<Wall> walls = new ArrayList<>();
     ArrayList<Spikes> spikes = new ArrayList<>();
+    ArrayList<Enemy> enemies = new ArrayList<>();
 
     public final static int FPS = 60;
 
@@ -32,9 +33,9 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     public GamePanel() {
         player = new Player(350,400,this);
-        //enemy = new Enemy(200,400,this);
         makeWalls();
         makeSpikes();
+        makeEnemies();
         this.setPreferredSize(new Dimension(700, 700));
         this.setBackground(Color.LIGHT_GRAY);
         this.setDoubleBuffered(true);
@@ -139,6 +140,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
 
     public void makeWalls(){}
     public void makeSpikes(){}
+    public void makeEnemies(){}
 
     public void reset() {
 
@@ -148,6 +150,8 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
         makeWalls();
         spikes.clear();
         makeSpikes();
+        enemies.clear();
+        makeEnemies();
     }
 
     @Override

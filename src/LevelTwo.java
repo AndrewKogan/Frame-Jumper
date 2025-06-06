@@ -12,12 +12,13 @@ public class LevelTwo extends GamePanel {
 
     @Override
     public void update() {
+        player.update();
         levelEnd.update();
         if(CodePuzzle.solved) door.open();
         codePuzzleStart.update();
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
-        player.update();
+        for(Enemy enemy : enemies) enemy.update(player);
     }
 
     @Override
@@ -27,6 +28,7 @@ public class LevelTwo extends GamePanel {
         codePuzzleStart.draw(g2);
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).draw(g2);
         for (Wall wall : walls) wall.draw(g2);
+        for(Enemy enemy : enemies) enemy.draw(g2);
         player.draw(g2);
     }
 
@@ -65,6 +67,11 @@ public class LevelTwo extends GamePanel {
         for(int i = 448; i < 1080; i+=46){
             spikes.add(new Spikes(i,156,"src\\images\\spikes.png",player));
         }
+    }
+
+    @Override
+    public void makeEnemies(){
+        enemies.add(new Enemy(525, 650,this));
     }
 
     @Override

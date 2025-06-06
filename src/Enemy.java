@@ -22,6 +22,8 @@ public class Enemy {
     boolean touchedPlayer;
     int invincibilityFrames;
 
+    boolean inRange;
+
 
     Rectangle hitBox;
 
@@ -40,9 +42,12 @@ public class Enemy {
         hitBox = new Rectangle(x,y,width,height);
         touchedPlayer = false;
         invincibilityFrames = 0;
+        inRange = false;
     }
 
     public void update(Player player) {
+        if(0 < x && x < 700 && 100 < Math.abs(player.y-y)) inRange = true;
+        else inRange = false;
         frameCount++;
         if (player.x > x) {
             xspeed = 2;
@@ -87,8 +92,7 @@ public class Enemy {
         //Player collision + invincibility frames
         if(!touchedPlayer) {
             if (hitBox.intersects(player.hitBox)) {
-                System.out.println("you got touched!");
-                touchedPlayer = true;
+                panel.reset();
                 invincibilityFrames = 40;
             }
         }

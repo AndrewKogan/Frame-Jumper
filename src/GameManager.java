@@ -12,7 +12,7 @@ public class GameManager {
         window.setTitle("Frame Jumper");
 
         levels = new GamePanel[] {
-                new LevelOne(),
+                //new LevelOne(),
                 new LevelTwo(),
         };
 

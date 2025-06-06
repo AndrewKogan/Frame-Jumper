@@ -2,6 +2,8 @@ import java.awt.*;
 import CodePuzzle.CodePuzzle;
 
 public class LevelTwo extends GamePanel {
+    private Door door;
+
     public LevelTwo() {
         super();
         levelEnd = new LevelEndInteractable(790,670,"src\\images\\test.jpg", player);
@@ -11,7 +13,7 @@ public class LevelTwo extends GamePanel {
     @Override
     public void update() {
         levelEnd.update();
-        if(CodePuzzle.solved) walls.get(10).open();
+        if(CodePuzzle.solved) door.open();
         codePuzzleStart.update();
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
@@ -40,12 +42,10 @@ public class LevelTwo extends GamePanel {
         walls.add(new Wall(1325,400,50,100,player,true));
         walls.add(new Wall(725,600,300,50,player,false));
         walls.add(new Wall(1025,600,50,400,player,false));
-        if(CodePuzzle.solved){
-            walls.add(new Door(675,250,50,250,player,false));
-            Door puzzleDoor = (Door) walls.get(10);
-            puzzleDoor.opened = true;
-        }
-        else walls.add(new Door(675,350,50,250,player,false));
+
+        door = new Door(675,350,50,250,player,false);
+        walls.add(door);
+
         walls.add(new Wall(525,700,150,50,player,false));
         walls.add(new Wall(625,750,50,100,player,true));
         walls.add(new Wall(825,850,150,50,player,false));
@@ -72,5 +72,6 @@ public class LevelTwo extends GamePanel {
         super.reset();
         codePuzzleStart = new CodePuzzleInteractable(763,408,"src\\images\\test.jpg",player);
         levelEnd = new LevelEndInteractable(790,670,"src\\images\\test.jpg", player);
+        CodePuzzle.solved = false;
     }
 }

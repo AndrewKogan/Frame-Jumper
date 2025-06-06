@@ -11,14 +11,12 @@ public class CodePuzzle {
     private String code = "";
 
     private JFrame window;
-    public static int usage = 0;
     public static boolean solved = false;
 
-    public CodePuzzle(int usage) {
-        CodePuzzle.usage = usage;
+    public CodePuzzle() {
         String username = System.getProperty("user.name");
         try {
-            hiddenFile = new File("C:\\Users\\" + username + "\\I SEE YOU.txt");
+            hiddenFile = new File("C:\\Users\\" + username + "\\Downloads\\I SEE YOU.txt");
             if(hiddenFile.createNewFile()) {
                 System.out.println("File created");
             } else {
@@ -48,13 +46,15 @@ public class CodePuzzle {
         window.setVisible(true);
     }
 
+    public JFrame getWindow() {
+        return window;
+    }
+
     public boolean checkPuzzleSolution(String attempt) {
         return code.equals(attempt);
     }
 
     public void onPuzzleSolved() {
-        System.out.println("Solved");
-        CodePuzzle.usage=10;
         CodePuzzle.solved = true;
         onQuit();
     }

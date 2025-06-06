@@ -102,6 +102,6 @@ public class CodePanel extends JPanel implements ActionListener {
         }
         else if (source == cancelButton)
             puzzleReference.onQuit();
-            CodePuzzle.usage--;
+            //CodePuzzle.usage--;
     }
 }

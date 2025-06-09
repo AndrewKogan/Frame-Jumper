@@ -103,6 +103,9 @@ public class Player {
                 xcollision = true;
                 xspeed = 0;
                 x = hitBox.x;
+
+                if (wall instanceof FallingWall fallingWall)
+                    fallingWall.startFall();
             }
         }
 
@@ -117,6 +120,9 @@ public class Player {
                 ycollision = true;
                 yspeed = 0;
                 y = hitBox.y;
+
+                if (wall instanceof FallingWall fallingWall)
+                    fallingWall.startFall();
             }
         }
 

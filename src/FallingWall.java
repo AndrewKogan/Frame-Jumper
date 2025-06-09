@@ -7,6 +7,9 @@ public class FallingWall extends Wall implements ActionListener {
     private int speed;
     private Timer fallTimer;
     private boolean falling = false;
+    private final int shakeFrames = 3;
+    private int shakeCount = 0;
+    private boolean leftShake = false;
 
     public FallingWall(int x, int y, int width, int height, Player player, boolean wallJumpable, int speed, int time) {
         super(x, y, width, height, player, wallJumpable);
@@ -14,10 +17,24 @@ public class FallingWall extends Wall implements ActionListener {
         fallTimer = new Timer(time, this);
     }
 
+    public void startFall() {
+        if (!falling)  {
+            fallTimer.start();
+        }
+    }
+
     @Override
     public void update() {
-        if (hitBox.intersects(player.hitBox))
-            fallTimer.start();
+        if (fallTimer.isRunning()) {
+            if (shakeCount >= shakeFrames) {
+                if (leftShake) x -= speed;
+                else x += speed;
+                leftShake ^= true;
+                shakeCount = 0;
+            }
+            shakeCount++;
+        }
+
         if (falling)
             y += speed;
 

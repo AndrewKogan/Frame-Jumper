@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     CodePuzzleInteractable codePuzzleStart;
 
     public GamePanel() {
-        player = new Player(350,400,this);
+        player = new Player(350,300,this);
         makeWalls();
         makeSpikes();
         makeEnemies();
@@ -143,7 +143,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void makeEnemies(){}
 
     public void reset() {
-
         player = new Player(350,300,this);
 
         walls.clear();

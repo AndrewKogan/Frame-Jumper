@@ -71,7 +71,7 @@ public class LevelTwo extends GamePanel {
 
     @Override
     public void makeEnemies(){
-        enemies.add(new Enemy(525, 650,this));
+        enemies.add(new Enemy(525, 650, 530, 625, this));
     }
 
     @Override

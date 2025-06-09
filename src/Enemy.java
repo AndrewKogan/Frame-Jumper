@@ -8,6 +8,7 @@ public class Enemy {
     GamePanel panel;
     int x;
     int y;
+    int minX, maxX;
     int width;
     int height;
 
@@ -22,18 +23,17 @@ public class Enemy {
     boolean touchedPlayer;
     int invincibilityFrames;
 
-    boolean inRange;
-
-
     Rectangle hitBox;
 
-    public Enemy(int x, int y, GamePanel panel){
+    public Enemy(int x, int y, int minX, int maxX, GamePanel panel){
         this.panel = panel;
         this.x = x;
-        this.y =y;
+        this.y = y;
+        this.minX = minX;
+        this.maxX = maxX;
         ycollision = false;
         xcollision = false;
-        xspeed = 0;
+        xspeed = 3;
         yspeed = 0;
         gravity = 1;
         width = 50;
@@ -42,24 +42,20 @@ public class Enemy {
         hitBox = new Rectangle(x,y,width,height);
         touchedPlayer = false;
         invincibilityFrames = 0;
-        inRange = false;
     }
 
     public void update(Player player) {
-        if(0 < x && x < 700 && 100 < Math.abs(player.y-y)) inRange = true;
-        else inRange = false;
         frameCount++;
-        if (player.x > x) {
-            xspeed = 2;
+
+        if (x < minX || x > maxX) {
+            if (x < minX) x = minX;
+            if (x > maxX) x = maxX;
+            xspeed *= -1;
         }
-        else if (player.x<x) {
-            xspeed = -2;
-        }
-        else{
-            xspeed = 0;
-        }
+
         if(frameCount%3==0) {
             yspeed += gravity;
+            frameCount = 0;
         }
         //Horizontal collision
         xcollision = false;
@@ -70,7 +66,7 @@ public class Enemy {
                 while (!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
                 hitBox.x -= Math.signum(xspeed);
                 xcollision = true;
-                xspeed = 0;
+                //xspeed = 0;
                 x = hitBox.x;
             }
         }
@@ -100,13 +96,13 @@ public class Enemy {
         if(invincibilityFrames<=0) touchedPlayer = false;
 
         x+=xspeed-player.xspeed;
+        minX -= player.xspeed;
+        maxX -= player.xspeed;
         y+=yspeed-player.yspeed;
     }
 
     public void draw(Graphics2D g2){
         g2.setColor(Color.RED);
         g2.fillRect(x,y,width,height);
-        g2.setColor(Color.BLACK);
-        g2.drawRect(hitBox.x, hitBox.y, width, height);
     }
 }

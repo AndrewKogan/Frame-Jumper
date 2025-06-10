@@ -1,8 +1,8 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.signum;
+import static java.lang.Math.*;
 
 public class Player {
     GamePanel panel;
@@ -29,6 +29,19 @@ public class Player {
 
     Rectangle hitBox;
 
+    private Animation idle;
+    private Animation run;
+    private Animation jump;
+    private Animation fall;
+    private Animation attack;
+    private Animation block;
+    private Animation wallSlide;
+    private Animation wallJump;
+    private Animation hang;
+    private Animation climb;
+    private Animation death;
+    private Animation currentAnimation;
+
     public Player(int x, int y, GamePanel panel){
         this.panel = panel;
         this.x = x;
@@ -48,6 +61,21 @@ public class Player {
         wallJumpedRight = false;
         wallJumpedLeft = false;
         wallCollided = new Wall(0,0,0,0,this,false);
+
+        idle = new Animation("src\\images\\Andrew\\Idle", 4, 4, true);
+        run = new Animation("src\\images\\Andrew\\Run", 4, 10, true);
+        jump = new Animation("src\\images\\Andrew\\Jump", 3, 15, false);
+        fall = new Animation("src\\images\\Andrew\\Fall", 1, 1, false);
+        wallSlide = new Animation("src\\images\\Andrew\\Sliding", 1, 1, false);
+        wallJump = new Animation("src\\images\\Andrew\\WallJump", 3, 15, false);
+        hang = new Animation("src\\images\\Andrew\\Hanging", 1, 1, false);
+        climb = new Animation("src\\images\\Andrew\\Climbing", 4, 10, true);
+        attack = new Animation("src\\images\\Andrew\\Attack", 5, 8, false);
+        block = new Animation("src\\images\\Andrew\\Block", 2, 10, false);
+        death = new Animation("src\\images\\Andrew\\Death", 4, 2, false);
+
+        currentAnimation = idle;
+        currentAnimation.play();
     }
 
     public void update() {
@@ -59,12 +87,41 @@ public class Player {
         if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
             if (KeyInputs.keysPressed[KeyEvent.VK_D] && !wallJumpedRight) {
                 xspeed = 5;
+                if (ycollision) {
+                    if (wallCollided.y > y && currentAnimation != run) {
+                        currentAnimation = run;
+                        currentAnimation.play();
+                    }
+                    else if (wallCollided.y < y && currentAnimation != climb) {
+                        currentAnimation = climb;
+                        currentAnimation.play();
+                    }
+                }
             }
             else if (KeyInputs.keysPressed[KeyEvent.VK_A] && !wallJumpedLeft) {
                 xspeed = -5;
+                if (ycollision) {
+                    if (wallCollided.y > y && currentAnimation != run) {
+                        currentAnimation = run;
+                        currentAnimation.play();
+                    }
+                    else if (wallCollided.y < y && currentAnimation != climb) {
+                        currentAnimation = climb;
+                        currentAnimation.play();
+                    }
+                }
             }
-            else if (!(wallJumpedLeft || wallJumpedRight)){
+            else if (!(wallJumpedLeft || wallJumpedRight)) {
                 xspeed = 0;
+                if (ycollision) {
+                    if (wallCollided.y > y && currentAnimation != idle) {
+                        currentAnimation = idle;
+                        currentAnimation.play();
+                    }
+                    else if (wallCollided.y < y && currentAnimation != climb) {
+                        currentAnimation = climb;
+                    }
+                }
             }
         }
 
@@ -74,6 +131,8 @@ public class Player {
             if(ycollision){
                 yspeed = -7;
                 cooldown = 20;
+                currentAnimation = jump;
+                currentAnimation.play();
             }
             else if(xcollision && cooldown <= 0 && wallCollided.wallJumpable){
                 yspeed = -10;
@@ -117,6 +176,7 @@ public class Player {
                 hitBox.y -= yspeed;
                 while (!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
                 hitBox.y -= Math.signum(yspeed);
+                wallCollided = wall;
                 ycollision = true;
                 yspeed = 0;
                 y = hitBox.y;
@@ -139,8 +199,12 @@ public class Player {
             panel.reset();
     }
 
-    public void draw(Graphics2D g2){
-        g2.setColor(Color.BLACK);
-        g2.fillRect(x,y,width,height);
+    public void draw(Graphics2D g2) {
+        BufferedImage currentImage = currentAnimation.getActiveFrame();
+
+        if (xspeed == 0 && currentAnimation == climb) currentImage = currentAnimation.getFirstFrame();
+        g2.drawImage(currentImage, x, y, null);
+        /*g2.setColor(Color.BLACK);
+        g2.fillRect(x,y,width,height);*/
     }
 }

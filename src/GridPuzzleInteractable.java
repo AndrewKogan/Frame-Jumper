@@ -1,5 +1,7 @@
 import GridPuzzle.GridPuzzle;
 
+import java.awt.event.KeyEvent;
+
 public class GridPuzzleInteractable extends Interactable {
 
     public GridPuzzleInteractable(int x, int y, String imagePath, Player p) {
@@ -9,6 +11,9 @@ public class GridPuzzleInteractable extends Interactable {
     @Override
     protected void interact() {
         super.interact();
-        new GridPuzzle();
+        if(!GridPuzzle.opened && !GridPuzzle.solved){
+            new GridPuzzle();
+            KeyInputs.keysPressed[KeyEvent.VK_E] = false;
+        }
     }
 }

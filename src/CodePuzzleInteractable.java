@@ -3,7 +3,6 @@ import CodePuzzle.CodePuzzle;
 import java.awt.event.KeyEvent;
 
 public class CodePuzzleInteractable extends Interactable {
-    //int usage = 0;
     private CodePuzzle puzzleReference;
 
     public CodePuzzleInteractable(int x, int y, String imagePath, Player p) {

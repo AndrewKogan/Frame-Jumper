@@ -1,21 +1,21 @@
 import java.awt.*;
-import CodePuzzle.CodePuzzle;
+import GridPuzzle.GridPuzzle;
 
 public class LevelThree extends GamePanel {
     private Door door;
 
     public LevelThree() {
         super();
-        levelEnd = new LevelEndInteractable(790,670,"src\\images\\test.jpg", player);
-        codePuzzleStart = new CodePuzzleInteractable(763,408,"src\\images\\test.jpg",player);
+        levelEnd = new LevelEndInteractable(0,0,"src\\images\\test.jpg", player);
+        gridPuzzleStart = new GridPuzzleInteractable(2850,108,"src\\images\\test.jpg", player);
     }
 
     @Override
     public void update() {
         player.update();
+        gridPuzzleStart.update();
         levelEnd.update();
-        if(CodePuzzle.solved) door.open();
-        codePuzzleStart.update();
+        if(GridPuzzle.solved) door.open();
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
         for(Enemy enemy : enemies) enemy.update(player);
@@ -25,7 +25,7 @@ public class LevelThree extends GamePanel {
     public void paintLevel(Graphics g) {
         Graphics2D g2 = (Graphics2D)g;
         levelEnd.draw(g2);
-        codePuzzleStart.draw(g2);
+        gridPuzzleStart.draw(g2);
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).draw(g2);
         for (Wall wall : walls) wall.draw(g2);
         for(Enemy enemy : enemies) enemy.draw(g2);
@@ -46,8 +46,10 @@ public class LevelThree extends GamePanel {
         walls.add(new FallingWall(2100,250,10,50,player,false, 10, 100));
         walls.add(new FallingWall(2350,300,10,50,player,false, 10, 100));
         walls.add(new Wall(2600,300,10,50,player,false));
-
-
+        walls.add(new Wall(2850,300,300,50,player,false));
+        door = new Door(3100,-50,50,350,player,false);
+        walls.add(door);
+        walls.add(new Wall(1350,700,1650,50,player,false));
     }
 
     @Override
@@ -63,8 +65,9 @@ public class LevelThree extends GamePanel {
     @Override
     public void reset() {
         super.reset();
-        codePuzzleStart = new CodePuzzleInteractable(763,408,"src\\images\\test.jpg",player);
+        gridPuzzleStart = new GridPuzzleInteractable(2850,108,"src\\images\\test.jpg",player);
         levelEnd = new LevelEndInteractable(790,670,"src\\images\\test.jpg", player);
-        CodePuzzle.solved = false;
+        GridPuzzle.solved = false;
+        GridPuzzle.opened = false;
     }
 }

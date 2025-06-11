@@ -42,7 +42,10 @@ public class Player {
     private Animation wallJump;
     private Animation hang;
     private Animation climb;
+
     public Animation death;
+    private boolean dying;
+
     public Animation currentAnimation;
 
     public Player(int x, int y, GamePanel panel){
@@ -84,142 +87,155 @@ public class Player {
     }
 
     public void update() {
-        frameCount++;
-        cooldown--;
-
-        if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
-        if(panel.door != null && panel.door.isOpening) lockMovement = true;
-        else lockMovement = false;
-
-        if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
-            if (KeyInputs.keysPressed[KeyEvent.VK_D] && !wallJumpedRight) {
-                facingLeft = false;
-                xspeed = 5;
-                if (ycollision) {
-                    if (wallCollided.y > y && currentAnimation != run) {
-                        currentAnimation = run;
-                        currentAnimation.play();
-                    }
-                    else if (wallCollided.y < y && currentAnimation != climb) {
-                        currentAnimation = climb;
-                        currentAnimation.play();
-                    }
-                }
-            }
-            else if (KeyInputs.keysPressed[KeyEvent.VK_A] && !wallJumpedLeft) {
-                facingLeft = true;
-                xspeed = -5;
-                if (ycollision) {
-                    if (wallCollided.y > y && currentAnimation != run) {
-                        currentAnimation = run;
-                        currentAnimation.play();
-                    }
-                    else if (wallCollided.y < y && currentAnimation != climb) {
-                        currentAnimation = climb;
-                        currentAnimation.play();
-                    }
-                }
-            }
-            else if (!(wallJumpedLeft || wallJumpedRight)) {
-                xspeed = 0;
-                if (ycollision) {
-                    if (wallCollided.y > y && currentAnimation != idle) {
-                        currentAnimation = idle;
-                        currentAnimation.play();
-                    }
-                    else if (wallCollided.y < y && currentAnimation != hang) {
-                        currentAnimation = hang;
-                    }
-                }
-            }
+        if (dying) {
+            lockMovement = true;
+            if (death.finished)
+                panel.reset();
         }
+        else {
+            frameCount++;
+            cooldown--;
 
-        if(xspeed!=0) holdingOn = true;
+            if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
+            if(panel.door != null && panel.door.isOpening) lockMovement = true;
+            else lockMovement = false;
 
-        if (KeyInputs.keysPressed[KeyEvent.VK_W]) {
-            if(ycollision){
-                yspeed = -7;
-                cooldown = 20;
-                if(currentAnimation!=climb&&currentAnimation!=hang) {
-                    currentAnimation = jump;
-                    currentAnimation.play();
-                }
-            }
-            else if(xcollision && cooldown <= 0 && wallCollided.wallJumpable){
-                yspeed = -10;
-                if(xspeed > 0){
-                    wallJumpedRight = true;
-                    wallJumpedLeft = false;
-                    facingLeft = true;
-                }
-                if(xspeed < 0){
-                    wallJumpedLeft = true;
-                    wallJumpedRight = false;
+            if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
+                if (KeyInputs.keysPressed[KeyEvent.VK_D] && !wallJumpedRight) {
                     facingLeft = false;
+                    xspeed = 5;
+                    if (ycollision) {
+                        if (wallCollided.y > y && currentAnimation != run) {
+                            currentAnimation = run;
+                            currentAnimation.play();
+                        }
+                        else if (wallCollided.y < y && currentAnimation != climb) {
+                            currentAnimation = climb;
+                            currentAnimation.play();
+                        }
+                    }
                 }
-                currentAnimation = wallJump;
-                currentAnimation.play();
-                xspeed = (int) (-xspeed * 0.7);
-
-                gravityDecelerator = 1;
+                else if (KeyInputs.keysPressed[KeyEvent.VK_A] && !wallJumpedLeft) {
+                    facingLeft = true;
+                    xspeed = -5;
+                    if (ycollision) {
+                        if (wallCollided.y > y && currentAnimation != run) {
+                            currentAnimation = run;
+                            currentAnimation.play();
+                        }
+                        else if (wallCollided.y < y && currentAnimation != climb) {
+                            currentAnimation = climb;
+                            currentAnimation.play();
+                        }
+                    }
+                }
+                else if (!(wallJumpedLeft || wallJumpedRight)) {
+                    xspeed = 0;
+                    if (ycollision) {
+                        if (wallCollided.y > y && currentAnimation != idle) {
+                            currentAnimation = idle;
+                            currentAnimation.play();
+                        }
+                        else if (wallCollided.y < y && currentAnimation != hang) {
+                            currentAnimation = hang;
+                        }
+                    }
+                }
             }
-        }
 
-        //Horizontal collision
-        xcollision = false;
-        hitBox.x=x+xspeed;
-        for(Wall wall: panel.walls) {
-            if (hitBox.intersects(wall.hitBox)) {
-                hitBox.x -= xspeed;
-                while (!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
-                hitBox.x -= Math.signum(xspeed);
-                wallCollided = wall;
-                xcollision = true;
-                xspeed = 0;
-                x = hitBox.x;
+            if(xspeed!=0) holdingOn = true;
 
-                if (wall instanceof FallingWall fallingWall)
-                    fallingWall.startFall();
+            if (KeyInputs.keysPressed[KeyEvent.VK_W]) {
+                if(ycollision){
+                    yspeed = -7;
+                    cooldown = 20;
+                    if(currentAnimation!=climb&&currentAnimation!=hang) {
+                        currentAnimation = jump;
+                        currentAnimation.play();
+                    }
+                }
+                else if(xcollision && cooldown <= 0 && wallCollided.wallJumpable){
+                    yspeed = -10;
+                    if(xspeed > 0){
+                        wallJumpedRight = true;
+                        wallJumpedLeft = false;
+                        facingLeft = true;
+                    }
+                    if(xspeed < 0){
+                        wallJumpedLeft = true;
+                        wallJumpedRight = false;
+                        facingLeft = false;
+                    }
+                    currentAnimation = wallJump;
+                    currentAnimation.play();
+                    xspeed = (int) (-xspeed * 0.7);
+
+                    gravityDecelerator = 1;
+                }
             }
-        }
 
-        //Vertical collision
-        ycollision = false;
-        hitBox.y=y+yspeed;
-        for (Wall wall : panel.walls) {
-            if (hitBox.intersects(wall.hitBox)) {
-                hitBox.y -= yspeed;
-                while (!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
-                hitBox.y -= Math.signum(yspeed);
-                wallCollided = wall;
-                ycollision = true;
-                yspeed = 0;
-                y = hitBox.y;
+            //Horizontal collision
+            xcollision = false;
+            hitBox.x=x+xspeed;
+            for(Wall wall: panel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.x -= xspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.x += Math.signum(xspeed);
+                    hitBox.x -= Math.signum(xspeed);
+                    wallCollided = wall;
+                    xcollision = true;
+                    xspeed = 0;
+                    x = hitBox.x;
 
-                if (wall instanceof FallingWall fallingWall)
-                    fallingWall.startFall();
+                    if (wall instanceof FallingWall fallingWall)
+                        fallingWall.startFall();
+                }
             }
-        }
 
-        gravityDecelerator = 1;
-        if(xcollision && holdingOn){
-            gravityDecelerator = 3;
-            currentAnimation = wallSlide;
-        }
-        else if (yspeed>0){
-            currentAnimation = fall;
-        }
-        if(ycollision){
-            wallJumpedLeft = false;
-            wallJumpedRight = false;
-        }
+            //Vertical collision
+            ycollision = false;
+            hitBox.y=y+yspeed;
+            for (Wall wall : panel.walls) {
+                if (hitBox.intersects(wall.hitBox)) {
+                    hitBox.y -= yspeed;
+                    while (!wall.hitBox.intersects(hitBox)) hitBox.y += Math.signum(yspeed);
+                    hitBox.y -= Math.signum(yspeed);
+                    wallCollided = wall;
+                    ycollision = true;
+                    yspeed = 0;
+                    y = hitBox.y;
 
+                    if (wall instanceof FallingWall fallingWall)
+                        fallingWall.startFall();
+                }
+            }
+
+            gravityDecelerator = 1;
+            if(xcollision && holdingOn){
+                gravityDecelerator = 3;
+                currentAnimation = wallSlide;
+            }
+            else if (yspeed>0){
+                currentAnimation = fall;
+            }
+            if(ycollision){
+                wallJumpedLeft = false;
+                wallJumpedRight = false;
+            }
+
+            if (KeyInputs.keysPressed[KeyEvent.VK_ESCAPE])
+                die();
+        }
         if(lockMovement) {
             yspeed = 0;
             xspeed = 0;
         }
-        if (KeyInputs.keysPressed[KeyEvent.VK_ESCAPE])
-            panel.reset();
+    }
+
+    public void die() {
+        dying = true;
+        currentAnimation = death;
+        currentAnimation.play();
     }
 
     public void draw(Graphics2D g2) {
@@ -227,8 +243,6 @@ public class Player {
 
         if (xspeed == 0 && currentAnimation == climb) currentImage = currentAnimation.getFirstFrame();
         if((facingLeft && !(currentAnimation == wallSlide)) || (!facingLeft && (currentAnimation == wallSlide))) g2.drawImage(currentImage, x, y, width, height,null);
-        else g2.drawImage(currentImage, x+width, y, width*-1, height,null);
-        /*g2.setColor(Color.BLACK);
-        g2.fillRect(x,y,width,height);*/
+        else g2.drawImage(currentImage, x+width, y, -width, height,null);
     }
 }

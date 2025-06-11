@@ -5,6 +5,6 @@ public class Spikes extends TriggerArea {
 
     @Override
     protected void onTriggerEnter() {
-        playerReference.panel.reset();
+        playerReference.die();
     }
 }

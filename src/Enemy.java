@@ -25,7 +25,7 @@ public class Enemy {
 
     Rectangle hitBox;
 
-    public Enemy(int x, int y, int minX, int maxX, GamePanel panel){
+    public Enemy(int x, int y, int minX, int maxX, GamePanel panel) {
         this.panel = panel;
         this.x = x;
         this.y = y;
@@ -88,7 +88,7 @@ public class Enemy {
         //Player collision + invincibility frames
         if(!touchedPlayer) {
             if (hitBox.intersects(player.hitBox)) {
-                panel.reset();
+                player.die();
                 invincibilityFrames = 40;
             }
         }

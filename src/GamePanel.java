@@ -145,8 +145,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void makeEnemies(){}
 
     public void reset() {
-        player.currentAnimation = player.death;
-
         player = new Player(350,300,this);
 
         walls.clear();

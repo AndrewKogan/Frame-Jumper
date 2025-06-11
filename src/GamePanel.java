@@ -16,6 +16,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     ArrayList<Wall> walls = new ArrayList<>();
     ArrayList<Spikes> spikes = new ArrayList<>();
     ArrayList<Enemy> enemies = new ArrayList<>();
+    Door door;
 
     public final static int FPS = 60;
 
@@ -144,6 +145,8 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void makeEnemies(){}
 
     public void reset() {
+        player.currentAnimation = player.death;
+
         player = new Player(350,300,this);
 
         walls.clear();

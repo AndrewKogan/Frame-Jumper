@@ -2,7 +2,6 @@ import java.awt.*;
 import CodePuzzle.CodePuzzle;
 
 public class LevelTwo extends GamePanel {
-    private Door door;
 
     public LevelTwo() {
         super();

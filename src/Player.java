@@ -29,6 +29,9 @@ public class Player {
 
     Rectangle hitBox;
 
+    boolean facingLeft;
+    boolean lockMovement;
+
     private Animation idle;
     private Animation run;
     private Animation jump;
@@ -39,15 +42,17 @@ public class Player {
     private Animation wallJump;
     private Animation hang;
     private Animation climb;
-    private Animation death;
-    private Animation currentAnimation;
+    public Animation death;
+    public Animation currentAnimation;
 
     public Player(int x, int y, GamePanel panel){
         this.panel = panel;
         this.x = x;
         this.y = y;
+        facingLeft = true;
         ycollision = false;
         xcollision = false;
+        lockMovement = false;
         xspeed = 0;
         yspeed = 0;
         gravity = 1;
@@ -63,13 +68,13 @@ public class Player {
         wallCollided = new Wall(0,0,0,0,this,false);
 
         idle = new Animation("src\\images\\Andrew\\Idle", 4, 4, true);
-        run = new Animation("src\\images\\Andrew\\Run", 4, 10, true);
+        run = new Animation("src\\images\\Andrew\\Run", 4, 8, true);
         jump = new Animation("src\\images\\Andrew\\Jump", 3, 15, false);
         fall = new Animation("src\\images\\Andrew\\Fall", 1, 1, false);
         wallSlide = new Animation("src\\images\\Andrew\\Sliding", 1, 1, false);
         wallJump = new Animation("src\\images\\Andrew\\WallJump", 3, 15, false);
         hang = new Animation("src\\images\\Andrew\\Hanging", 1, 1, false);
-        climb = new Animation("src\\images\\Andrew\\Climbing", 4, 10, true);
+        climb = new Animation("src\\images\\Andrew\\Climbing", 4, 8, true);
         attack = new Animation("src\\images\\Andrew\\Attack", 5, 8, false);
         block = new Animation("src\\images\\Andrew\\Block", 2, 10, false);
         death = new Animation("src\\images\\Andrew\\Death", 4, 2, false);
@@ -83,9 +88,11 @@ public class Player {
         cooldown--;
 
         if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
+        if(panel.door != null && panel.door.isOpening) lockMovement = true;
 
         if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
             if (KeyInputs.keysPressed[KeyEvent.VK_D] && !wallJumpedRight) {
+                facingLeft = false;
                 xspeed = 5;
                 if (ycollision) {
                     if (wallCollided.y > y && currentAnimation != run) {
@@ -99,6 +106,7 @@ public class Player {
                 }
             }
             else if (KeyInputs.keysPressed[KeyEvent.VK_A] && !wallJumpedLeft) {
+                facingLeft = true;
                 xspeed = -5;
                 if (ycollision) {
                     if (wallCollided.y > y && currentAnimation != run) {
@@ -118,8 +126,8 @@ public class Player {
                         currentAnimation = idle;
                         currentAnimation.play();
                     }
-                    else if (wallCollided.y < y && currentAnimation != climb) {
-                        currentAnimation = climb;
+                    else if (wallCollided.y < y && currentAnimation != hang) {
+                        currentAnimation = hang;
                     }
                 }
             }
@@ -131,19 +139,25 @@ public class Player {
             if(ycollision){
                 yspeed = -7;
                 cooldown = 20;
-                currentAnimation = jump;
-                currentAnimation.play();
+                if(currentAnimation!=climb&&currentAnimation!=hang) {
+                    currentAnimation = jump;
+                    currentAnimation.play();
+                }
             }
             else if(xcollision && cooldown <= 0 && wallCollided.wallJumpable){
                 yspeed = -10;
                 if(xspeed > 0){
                     wallJumpedRight = true;
                     wallJumpedLeft = false;
+                    facingLeft = true;
                 }
                 if(xspeed < 0){
                     wallJumpedLeft = true;
                     wallJumpedRight = false;
+                    facingLeft = false;
                 }
+                currentAnimation = wallJump;
+                currentAnimation.play();
                 xspeed = (int) (-xspeed * 0.7);
 
                 gravityDecelerator = 1;
@@ -189,12 +203,20 @@ public class Player {
         gravityDecelerator = 1;
         if(xcollision && holdingOn){
             gravityDecelerator = 3;
+            currentAnimation = wallSlide;
+        }
+        else if (yspeed>0){
+            currentAnimation = fall;
         }
         if(ycollision){
             wallJumpedLeft = false;
             wallJumpedRight = false;
         }
 
+        if(lockMovement) {
+            yspeed = 0;
+            xspeed = 0;
+        }
         if (KeyInputs.keysPressed[KeyEvent.VK_ESCAPE])
             panel.reset();
     }
@@ -203,7 +225,8 @@ public class Player {
         BufferedImage currentImage = currentAnimation.getActiveFrame();
 
         if (xspeed == 0 && currentAnimation == climb) currentImage = currentAnimation.getFirstFrame();
-        g2.drawImage(currentImage, x, y, null);
+        if((facingLeft && !(currentAnimation == wallSlide)) || (!facingLeft && (currentAnimation == wallSlide))) g2.drawImage(currentImage, x, y, width, height,null);
+        else g2.drawImage(currentImage, x+width, y, width*-1, height,null);
         /*g2.setColor(Color.BLACK);
         g2.fillRect(x,y,width,height);*/
     }

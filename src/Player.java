@@ -89,6 +89,7 @@ public class Player {
 
         if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
         if(panel.door != null && panel.door.isOpening) lockMovement = true;
+        else lockMovement = false;
 
         if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
             if (KeyInputs.keysPressed[KeyEvent.VK_D] && !wallJumpedRight) {

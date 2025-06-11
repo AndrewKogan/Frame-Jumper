@@ -36,15 +36,20 @@ public class Player {
     private Animation run;
     private Animation jump;
     private Animation fall;
-    private Animation attack;
-    private Animation block;
     private Animation wallSlide;
     private Animation wallJump;
     private Animation hang;
     private Animation climb;
 
+    private Animation attack;
+    private Animation block;
+    public boolean attacking;
+    public boolean blocking;
+    private int blockFrames;
+    public int iFrames;
+
     public Animation death;
-    private boolean dying;
+    boolean dying;
 
     public Animation currentAnimation;
 
@@ -78,9 +83,9 @@ public class Player {
         wallJump = new Animation("src\\images\\Andrew\\WallJump", 3, 15, false);
         hang = new Animation("src\\images\\Andrew\\Hanging", 1, 1, false);
         climb = new Animation("src\\images\\Andrew\\Climbing", 4, 8, true);
-        attack = new Animation("src\\images\\Andrew\\Attack", 5, 8, false);
-        block = new Animation("src\\images\\Andrew\\Block", 2, 10, false);
-        death = new Animation("src\\images\\Andrew\\Death", 4, 2, false);
+        attack = new Animation("src\\images\\Andrew\\Attack", 5, 12, false);
+        block = new Animation("src\\images\\Andrew\\Block", 2, 8, false);
+        death = new Animation("src\\images\\Andrew\\Death", 4, 4, false);
 
         currentAnimation = idle;
         currentAnimation.play();
@@ -88,17 +93,28 @@ public class Player {
 
     public void update() {
         if (dying) {
-            lockMovement = true;
             if (death.finished)
                 panel.reset();
         }
-        else {
+        else if (attacking) {
+            if (attack.finished) {
+                lockMovement = false;
+                attacking = false;
+            }
+        }
+        else if (blocking) {
+            blockFrames--;
+            if (iFrames > 0) iFrames--;
+            if (blockFrames <= 0) {
+                lockMovement = false;
+                blocking = false;
+            }
+        }
+        else if (!lockMovement) {
             frameCount++;
             cooldown--;
 
             if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
-            if(panel.door != null && panel.door.isOpening) lockMovement = true;
-            else lockMovement = false;
 
             if (!(KeyInputs.keysPressed[KeyEvent.VK_D] && KeyInputs.keysPressed[KeyEvent.VK_A])) {
                 if (KeyInputs.keysPressed[KeyEvent.VK_D] && !wallJumpedRight) {
@@ -213,7 +229,8 @@ public class Player {
             gravityDecelerator = 1;
             if(xcollision && holdingOn){
                 gravityDecelerator = 3;
-                currentAnimation = wallSlide;
+                if (wallCollided.wallJumpable)
+                    currentAnimation = wallSlide;
             }
             else if (yspeed>0){
                 currentAnimation = fall;
@@ -223,17 +240,39 @@ public class Player {
                 wallJumpedRight = false;
             }
 
+            if (MouseInputs.leftClick && !attacking && !blocking && ycollision && wallCollided.y > y) {
+                lockMovement = true;
+                attacking = true;
+                currentAnimation = attack;
+                currentAnimation.play();
+            }
+
+            if (KeyInputs.keysPressed[KeyEvent.VK_F] && !blocking && !attacking && ycollision && wallCollided.y > y) {
+                lockMovement = true;
+                blocking = true;
+                iFrames = 20;
+                blockFrames = 40;
+                currentAnimation = block;
+                currentAnimation.play();
+            }
+
             if (KeyInputs.keysPressed[KeyEvent.VK_ESCAPE])
                 die();
         }
-        if(lockMovement) {
-            yspeed = 0;
+        if (lockMovement) {
             xspeed = 0;
+            yspeed = 0;
+            if (currentAnimation != idle && currentAnimation != attack && currentAnimation != block) {
+                currentAnimation = idle;
+                idle.play();
+            }
         }
     }
 
     public void die() {
         dying = true;
+        xspeed = 0;
+        yspeed = 0;
         currentAnimation = death;
         currentAnimation.play();
     }

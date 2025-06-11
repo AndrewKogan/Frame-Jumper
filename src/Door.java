@@ -13,7 +13,7 @@ public class Door extends Wall {
     @Override
     public void update() {
         if(!isOpening) super.update();
-        else{
+        else {
             x -= player.xspeed;
             hitBox =  new Rectangle(x,y,width,height);
         }
@@ -26,12 +26,14 @@ public class Door extends Wall {
         if (y <= (startY - 100)) {
             opened = true;
             isOpening = false;
+            player.lockMovement = false;
         }
     }
 
     public void open() {
-        if (!opened){
+        if (!opened) {
             isOpening = true;
+            player.lockMovement = true;
         }
     }
 }

@@ -21,9 +21,10 @@ public class Enemy {
     boolean xcollision;
 
     boolean touchedPlayer;
-    int invincibilityFrames;
 
     Rectangle hitBox;
+
+    private boolean dead;
 
     public Enemy(int x, int y, int minX, int maxX, GamePanel panel) {
         this.panel = panel;
@@ -41,10 +42,11 @@ public class Enemy {
         frameCount = 0;
         hitBox = new Rectangle(x,y,width,height);
         touchedPlayer = false;
-        invincibilityFrames = 0;
     }
 
     public void update(Player player) {
+        if (dead) return;
+
         frameCount++;
 
         if (x < minX || x > maxX) {
@@ -88,12 +90,11 @@ public class Enemy {
         //Player collision + invincibility frames
         if(!touchedPlayer) {
             if (hitBox.intersects(player.hitBox)) {
-                player.die();
-                invincibilityFrames = 40;
+                if (player.attacking) dead = true;
+                else if (player.blocking && player.iFrames > 0) xspeed *= -1;
+                else if (!player.dying) player.die();
             }
         }
-        invincibilityFrames--;
-        if(invincibilityFrames<=0) touchedPlayer = false;
 
         x+=xspeed-player.xspeed;
         minX -= player.xspeed;
@@ -102,6 +103,8 @@ public class Enemy {
     }
 
     public void draw(Graphics2D g2){
+        if (dead) return;
+
         g2.setColor(Color.RED);
         g2.fillRect(x,y,width,height);
     }

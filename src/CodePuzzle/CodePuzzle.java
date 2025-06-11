@@ -17,11 +17,7 @@ public class CodePuzzle {
         String username = System.getProperty("user.name");
         try {
             hiddenFile = new File("C:\\Users\\" + username + "\\Downloads\\I SEE YOU.txt");
-            if(hiddenFile.createNewFile()) {
-                System.out.println("File created");
-            } else {
-                System.out.println("Error: File already exists");
-            }
+            hiddenFile.createNewFile();
 
             for (int i = 0; i < 4; i++)
                 code += (int) (Math.random() * 10);

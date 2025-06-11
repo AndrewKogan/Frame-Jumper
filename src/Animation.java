@@ -43,6 +43,7 @@ public class Animation implements ActionListener {
 
     public void play() {
         currentFrame = 0;
+        finished = false;
         timer.stop();
         timer.start();
     }

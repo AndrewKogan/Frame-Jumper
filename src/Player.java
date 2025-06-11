@@ -262,7 +262,7 @@ public class Player {
         if (lockMovement) {
             xspeed = 0;
             yspeed = 0;
-            if (currentAnimation != idle && currentAnimation != attack && currentAnimation != block) {
+            if (currentAnimation != idle && currentAnimation != attack && currentAnimation != block && currentAnimation != death) {
                 currentAnimation = idle;
                 idle.play();
             }
@@ -271,6 +271,8 @@ public class Player {
 
     public void die() {
         dying = true;
+        blocking = false;
+        attacking = false;
         xspeed = 0;
         yspeed = 0;
         currentAnimation = death;

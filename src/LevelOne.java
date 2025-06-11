@@ -12,6 +12,7 @@ public class LevelOne extends GamePanel {
         levelEnd.update();
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
+        for (Enemy enemy : enemies) enemy.update(player);
     }
 
     @Override
@@ -20,6 +21,7 @@ public class LevelOne extends GamePanel {
         levelEnd.draw(g2);
         for (Spikes spike : spikes) spike.draw(g2);
         for (Wall wall : walls) wall.draw(g2);
+        for (Enemy enemy : enemies) enemy.draw(g2);
         player.draw(g2);
     }
 
@@ -46,6 +48,11 @@ public class LevelOne extends GamePanel {
         for(int i = -50; i > -700; i-=50){
             spikes.add(new Spikes(i,54,"src\\images\\spikes.png",player));
         }
+    }
+
+    @Override
+    public void makeEnemies() {
+        enemies.add(new Enemy(150, 100, -205, 245, this));
     }
 
     @Override

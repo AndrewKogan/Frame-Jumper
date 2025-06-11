@@ -1,5 +1,6 @@
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import static java.lang.Math.incrementExact;
 import static java.lang.Math.signum;
@@ -26,6 +27,8 @@ public class Enemy {
 
     private boolean dead;
 
+    private Animation walking;
+
     public Enemy(int x, int y, int minX, int maxX, GamePanel panel) {
         this.panel = panel;
         this.x = x;
@@ -38,10 +41,13 @@ public class Enemy {
         yspeed = 0;
         gravity = 1;
         width = 50;
-        height = 50;
+        height = 75;
         frameCount = 0;
         hitBox = new Rectangle(x,y,width,height);
         touchedPlayer = false;
+
+        walking = new Animation("src\\images\\Enemy\\Walk", 2, 3, true);
+        walking.play();
     }
 
     public void update(Player player) {
@@ -105,7 +111,8 @@ public class Enemy {
     public void draw(Graphics2D g2){
         if (dead) return;
 
-        g2.setColor(Color.RED);
-        g2.fillRect(x,y,width,height);
+        BufferedImage activeFrame = walking.getActiveFrame();
+        if (xspeed < 0) g2.drawImage(activeFrame, x, y, width, height, null);
+        else if (xspeed > 0) g2.drawImage(activeFrame, x + width, y, -width, height, null);
     }
 }

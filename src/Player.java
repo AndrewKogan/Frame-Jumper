@@ -1,3 +1,5 @@
+import Audio.AudioPlayer;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -174,6 +176,7 @@ public class Player {
                     if(currentAnimation!=climb&&currentAnimation!=hang) {
                         currentAnimation = jump;
                         currentAnimation.play();
+                        AudioPlayer.playSound("src\\Audio\\Andrew\\Jump.wav");
                     }
                 }
                 else if(xcollision && cooldown <= 0 && wallCollided.wallJumpable){
@@ -190,6 +193,7 @@ public class Player {
                     }
                     currentAnimation = wallJump;
                     currentAnimation.play();
+                    AudioPlayer.playSound("src\\Audio\\Andrew\\Jump.wav");
                     xspeed = (int) (-xspeed * 0.7);
 
                     gravityDecelerator = 1;
@@ -251,6 +255,7 @@ public class Player {
                 attacking = true;
                 currentAnimation = attack;
                 currentAnimation.play();
+                AudioPlayer.playSound("src\\Audio\\Andrew\\Attack.wav");
             }
 
             if (KeyInputs.keysPressed[KeyEvent.VK_F] && !blocking && !attacking && ycollision && wallCollided.y > y) {
@@ -260,6 +265,7 @@ public class Player {
                 blockFrames = 40;
                 currentAnimation = block;
                 currentAnimation.play();
+                AudioPlayer.playSound("src\\Audio\\Andrew\\Block.wav");
             }
 
             if (KeyInputs.keysPressed[KeyEvent.VK_ESCAPE])
@@ -283,6 +289,7 @@ public class Player {
         yspeed = 0;
         currentAnimation = death;
         currentAnimation.play();
+        AudioPlayer.playSound("src\\Audio\\Andrew\\Death.wav");
     }
 
     public void draw(Graphics2D g2) {

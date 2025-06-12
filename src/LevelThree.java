@@ -1,12 +1,29 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
 import GridPuzzle.GridPuzzle;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+
 public class LevelThree extends GamePanel {
+    BufferedImage solution;
+    int imageX;
+    int imageY;
 
     public LevelThree() {
         super();
         levelEnd = new LevelEndInteractable(4200,1308,"src\\images\\test.jpg", player);
         gridPuzzleStart = new GridPuzzleInteractable(2850,108,"src\\images\\test.jpg", player);
+        try{
+            solution = ImageIO.read(new File("src\\images\\GridPuzzleSolution.png"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        imageX = 2250;
+        imageY = -750;
     }
 
     @Override
@@ -14,6 +31,8 @@ public class LevelThree extends GamePanel {
         player.update();
         gridPuzzleStart.update();
         levelEnd.update();
+        imageX -= player.xspeed;
+        imageY -= player.yspeed;
         if(GridPuzzle.solved) door.open();
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
@@ -25,6 +44,7 @@ public class LevelThree extends GamePanel {
         Graphics2D g2 = (Graphics2D)g;
         levelEnd.draw(g2);
         gridPuzzleStart.draw(g2);
+        g2.drawImage(solution,imageX,imageY,150,200,null);
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).draw(g2);
         for (Wall wall : walls) wall.draw(g2);
         for(int i = 0; i < enemies.size(); i++) enemies.get(i).draw(g2);
@@ -33,7 +53,7 @@ public class LevelThree extends GamePanel {
 
     @Override
     public void makeWalls() {
-        walls.add(new FallingWall(300,500,100,50,player,false,3,100));
+        walls.add(new FallingWall(300,500,100,50,player,false,5,200));
         walls.add(new Wall(600,500,100,50,player,false));
         walls.add(new Wall(900,500,10,50,player,false));
         walls.add(new FallingWall(1000,-1000,50,1500,player,true,2,300));
@@ -46,6 +66,15 @@ public class LevelThree extends GamePanel {
         walls.add(new FallingWall(2350,300,10,50,player,false, 10, 100));
         walls.add(new Wall(2600,300,10,50,player,false));
         walls.add(new Wall(2850,300,300,50,player,false));
+        walls.add(new Wall(2850,0,100,50,player,false));
+        walls.add(new Wall(3050,-1000,50,1000,player,false));
+        walls.add(new Wall(2550,-50,150,50,player,false));
+        walls.add(new Wall(2250,-100,150,50,player,false));
+        walls.add(new Wall(2150,-250,50,50,player,true));
+        walls.add(new Wall(2450,-350,50,50,player,true));
+        walls.add(new Wall(2150,-450,50,50,player,false));
+        walls.add(new Wall(2250,-550,150,50,player,false));
+
         door = new Door(3100,-50,50,350,player,false);
         walls.add(door);
         walls.add(new Wall(1350,700,1650,50,player,false));
@@ -79,6 +108,13 @@ public class LevelThree extends GamePanel {
     @Override
     public void reset() {
         super.reset();
+        try {
+            solution = ImageIO.read(new File("src\\images\\GridPuzzleSolution.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        imageX = 2250;
+        imageY = -750;
         gridPuzzleStart = new GridPuzzleInteractable(2850,108,"src\\images\\test.jpg",player);
         levelEnd = new LevelEndInteractable(4200,1308,"src\\images\\test.jpg", player);
         GridPuzzle.solved = false;

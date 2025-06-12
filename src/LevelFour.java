@@ -3,6 +3,9 @@ import java.awt.*;
 public class LevelFour extends GamePanel {
     private Boss boss;
 
+    private Cutscene introCutscene;
+    private Cutscene postCutscene;
+
     public LevelFour() {
         super();
         this.setPreferredSize(new Dimension(1500, 1000));
@@ -10,6 +13,15 @@ public class LevelFour extends GamePanel {
         player.x = 750;
         player.y = 800;
         boss = new Boss(player);
+
+        introCutscene = new Cutscene("https://youtube.com/shorts/O2MkW4CmCjc?feature=share", 48000, this);
+        postCutscene = new Cutscene("", 0, this);
+    }
+
+    @Override
+    public void startGameThread() {
+        super.startGameThread();
+        //introCutscene.play();
     }
 
     @Override

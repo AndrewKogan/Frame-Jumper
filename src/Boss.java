@@ -95,6 +95,7 @@ public class Boss implements ActionListener {
 
                 if (currentAnimation != walk) {
                     int delay = 1000 * ((int) (Math.random() * 4) + 3);
+                    System.out.println(delay);
                     attackCooldown = new Timer(delay, this);
                     attackCooldown.start();
 
@@ -172,7 +173,7 @@ public class Boss implements ActionListener {
                             attacking = false;
                             dashing = false;
                             dashFrames = 20;
-                            currentAnimation = walk;
+                            currentAnimation = teleport;
                             comboTimer = new Timer(500, this);
                             comboTimer.start();
                         }
@@ -293,6 +294,8 @@ public class Boss implements ActionListener {
                 else if (rng < 0.9) state = BossState.LEAPING;
                 else state = BossState.DASHING;
             }
+
+            System.out.println(state);
 
             xSpeed = 0;
             attackCooldown.stop();

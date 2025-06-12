@@ -21,6 +21,11 @@ public class LevelOne extends GamePanel {
         triggerArea4 = new AudioTriggerArea(200, 160, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line4.wav", 0);
         triggerArea5 = new AudioTriggerArea(-540, -330, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line5.wav", 0);
 
+    }
+
+    @Override
+    public void startGameThread() {
+        super.startGameThread();
         introCutscene.play();
     }
 

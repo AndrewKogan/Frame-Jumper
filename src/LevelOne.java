@@ -1,6 +1,8 @@
 import java.awt.*;
 
 public class LevelOne extends GamePanel {
+    private Cutscene introCutscene;
+
     private AudioTriggerArea triggerArea1;
     private AudioTriggerArea triggerArea2;
     private AudioTriggerArea triggerArea3;
@@ -11,11 +13,15 @@ public class LevelOne extends GamePanel {
         super();
         levelEnd = new LevelEndInteractable(-940,-420,"src\\images\\test.jpg", player);
 
+        introCutscene = new Cutscene("https://youtube.com/shorts/5V9fezUeX4s?feature=share", 77000, this);
+
         triggerArea1 = new AudioTriggerArea(350, 400, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line1.wav", 0);
         triggerArea2 = new AudioTriggerArea(-250, 400, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line2.wav", 0);
         triggerArea3 = new AudioTriggerArea(-450, 230, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line3.wav", 0);
         triggerArea4 = new AudioTriggerArea(200, 160, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line4.wav", 0);
         triggerArea5 = new AudioTriggerArea(-540, -330, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line5.wav", 0);
+
+        introCutscene.play();
     }
 
     @Override

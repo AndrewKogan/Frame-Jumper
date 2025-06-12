@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import Audio.AudioPlayer;
 
 public class CodePanel extends JPanel implements ActionListener {
     private JButton button0, button1, button2, button3, button4, button5, button6, button7, button8, button9;
@@ -99,11 +99,12 @@ public class CodePanel extends JPanel implements ActionListener {
             else if (source == button7) attempt += "7";
             else if (source == button8) attempt += "8";
             else if (source == button9) attempt += "9";
+            if (source != cancelButton) AudioPlayer.playSound("src\\Audio\\ButtonPress.wav");
         }
 
         if (source == submitButton && attempt.length() == 4) {
-            if (puzzleReference.checkPuzzleSolution(attempt))
-                puzzleReference.onPuzzleSolved();
+            if (puzzleReference.checkPuzzleSolution(attempt)) puzzleReference.onPuzzleSolved();
+            else AudioPlayer.playSound("src\\Audio\\Incorrect.wav");
             attempt = "";
         }
         else if (source == cancelButton)

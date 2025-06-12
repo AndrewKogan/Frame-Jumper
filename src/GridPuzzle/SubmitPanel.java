@@ -1,5 +1,7 @@
 package GridPuzzle;
 
+import Audio.AudioPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,10 +38,8 @@ public class SubmitPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         Object sender = e.getSource();
         if (sender == submitButton) {
-            if (puzzleReference.checkPuzzleSolution())
-                puzzleReference.onPuzzleSolved();
-            else
-                System.out.println("Incorrect");
+            if (puzzleReference.checkPuzzleSolution()) puzzleReference.onPuzzleSolved();
+            else AudioPlayer.playSound("src\\Audio\\Incorrect.wav");
         }
         else if (sender == quitButton)
             puzzleReference.quitPuzzle();

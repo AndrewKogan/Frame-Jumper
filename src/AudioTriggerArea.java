@@ -1,3 +1,5 @@
+import Audio.AudioPlayer;
+
 import java.awt.*;
 
 public class AudioTriggerArea extends TriggerArea {

@@ -1,3 +1,4 @@
+import Audio.AudioPlayer;
 import CodePuzzle.CodePuzzle;
 
 import java.awt.event.KeyEvent;
@@ -19,6 +20,7 @@ public class CodePuzzleInteractable extends Interactable {
     protected void interact() {
         if (puzzleReference == null) {
             super.interact();
+            AudioPlayer.playSound("src\\Audio\\CodePuzzleIntro.wav");
             puzzleReference = new CodePuzzle();
             for(int i = 0; i < 200; i++) KeyInputs.keysPressed[i] = false;
         }

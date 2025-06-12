@@ -1,3 +1,5 @@
+import Audio.AudioPlayer;
+
 import java.awt.*;
 
 public class Door extends Wall {
@@ -31,9 +33,10 @@ public class Door extends Wall {
     }
 
     public void open() {
-        if (!opened) {
+        if (!opened && !isOpening) {
             isOpening = true;
             player.lockMovement = true;
+            AudioPlayer.playSound("src\\Audio\\DoorOpen.wav");
         }
     }
 }

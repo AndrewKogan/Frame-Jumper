@@ -75,7 +75,7 @@ public class Boss implements ActionListener {
         dash = new Animation("src\\images\\Matthew\\Dash", 3, 3, false);
         combo1 = new Animation("src\\images\\Matthew\\ThreeHitCombo\\HitOne", 2, 6, false);
         combo2 = new Animation("src\\images\\Matthew\\ThreeHitCombo\\HitTwo", 2, 6, false);
-        combo3 = new Animation("src\\images\\Matthew\\ThreeHitCombo\\HitThree", 5, 4, false);
+        combo3 = new Animation("src\\images\\Matthew\\ThreeHitCombo\\HitThree", 5, 8, false);
     }
 
     public void update() {
@@ -106,6 +106,7 @@ public class Boss implements ActionListener {
                     if (currentAnimation != combo1) {
                         currentAnimation = combo1;
                         currentAnimation.play();
+                        AudioPlayer.playSound("src\\Audio\\Matthew\\Combo1.wav");
                     }
                     else if (currentAnimation.finished && !comboTimer.isRunning()) {
                         attacking = true;
@@ -118,6 +119,7 @@ public class Boss implements ActionListener {
                     if (currentAnimation != combo2) {
                         currentAnimation = combo2;
                         currentAnimation.play();
+                        AudioPlayer.playSound("src\\Audio\\Matthew\\Combo1.wav");
                     }
                     else if (currentAnimation.finished && !comboTimer.isRunning()) {
                         attacking = true;
@@ -130,6 +132,7 @@ public class Boss implements ActionListener {
                     if (currentAnimation != combo3) {
                         currentAnimation = combo3;
                         currentAnimation.play();
+                        AudioPlayer.playSound("src\\Audio\\Matthew\\Combo2.wav");
                     }
                     else if (currentAnimation.currentFrame == 2) {
                         attacking = true;
@@ -148,10 +151,11 @@ public class Boss implements ActionListener {
                     endlagTimer = new Timer(400, this);
                     endlagTimer.start();
                 }
-                else if (!comboTimer.isRunning()) {
+                else if (!comboTimer.isRunning() && !endlagTimer.isRunning()) {
                     if (currentAnimation != dash) {
                         currentAnimation = dash;
                         currentAnimation.play();
+                        AudioPlayer.playSound("src\\Audio\\Matthew\\Dash.wav");
                     }
                     else if (currentAnimation.finished && !dashing) {
                         attacking = true;
@@ -178,6 +182,7 @@ public class Boss implements ActionListener {
                 if (currentAnimation != leap) {
                     currentAnimation = leap;
                     currentAnimation.play();
+                    AudioPlayer.playSound("src\\Audio\\Matthew\\Leap.wav");
                 }
                 else if (currentAnimation.finished && y > -200) y -= 15 - player.yspeed;
                 else if (y <= -200) {
@@ -192,6 +197,7 @@ public class Boss implements ActionListener {
                 if (currentAnimation != dropkick) {
                     currentAnimation = dropkick;
                     currentAnimation.play();
+                    AudioPlayer.playSound("src\\Audio\\Matthew\\Dropkick.wav");
                 }
                 else if (currentAnimation.finished && y < player.y && !endlagTimer.isRunning()) {
                     y += 25 - player.yspeed;
@@ -209,6 +215,7 @@ public class Boss implements ActionListener {
                 if (currentAnimation != teleport) {
                     currentAnimation = teleport;
                     currentAnimation.play();
+                    AudioPlayer.playSound("src\\Audio\\Matthew\\Teleport.wav");
                 }
                 else if (currentAnimation.finished && !teleportTimer.isRunning()) {
                     teleportTimer = new Timer(500, this);
@@ -219,6 +226,7 @@ public class Boss implements ActionListener {
                 if (currentAnimation != flashKick) {
                     currentAnimation = flashKick;
                     currentAnimation.play();
+                    AudioPlayer.playSound("src\\Audio\\Matthew\\FlashKick.wav");
                 }
                 else if (currentAnimation.currentFrame == 3) {
                     attacking = true;
@@ -239,8 +247,6 @@ public class Boss implements ActionListener {
 
         if (hitbox.intersects(player.hitBox) && player.iFrames <= 0) {
             if (attacking) {
-                System.out.println("Player got hit");
-                System.out.println(attackDMG);
                 player.health -= attackDMG;
                 player.iFrames = 40;
             }
@@ -256,9 +262,6 @@ public class Boss implements ActionListener {
 
         if (!facingRight) g2.drawImage(activeFrame, x, y, width, height, null);
         else g2.drawImage(activeFrame, x + width, y, -width, height, null);
-
-        g2.setColor(Color.BLACK);
-        g2.drawRect(hitbox.x, hitbox.y, hitbox.width, hitbox.height);
 
         g2.setColor(Color.BLACK);
         g2.setFont(new Font("Old English Text MT", Font.PLAIN, 72));

@@ -17,7 +17,7 @@ public class Boss implements ActionListener {
     private int width;
     private int height;
 
-    private int health;
+    public int health;
     private int maxHealth;
 
     private Rectangle hitbox;
@@ -294,8 +294,6 @@ public class Boss implements ActionListener {
                 else if (rng < 0.9) state = BossState.LEAPING;
                 else state = BossState.DASHING;
             }
-
-            System.out.println(state);
 
             xSpeed = 0;
             attackCooldown.stop();

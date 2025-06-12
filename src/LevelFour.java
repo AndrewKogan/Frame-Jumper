@@ -1,10 +1,16 @@
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
 
 public class LevelFour extends GamePanel {
     private Boss boss;
 
     private Cutscene introCutscene;
     private Cutscene postCutscene;
+
+    private Timer cutsceneEndTimer = new Timer(35000, this);
 
     public LevelFour() {
         super();
@@ -15,19 +21,25 @@ public class LevelFour extends GamePanel {
         boss = new Boss(player);
 
         introCutscene = new Cutscene("https://youtube.com/shorts/O2MkW4CmCjc?feature=share", 48000, this);
-        postCutscene = new Cutscene("", 0, this);
+        postCutscene = new Cutscene("https://youtube.com/shorts/iFKPYk05D-g?feature=share", 100000, this);
     }
 
     @Override
     public void startGameThread() {
         super.startGameThread();
-        //introCutscene.play();
+        introCutscene.play();
     }
 
     @Override
     public void update() {
         player.update();
         boss.update();
+
+        if (boss.health <= 0)  {
+            postCutscene.play();
+            cutsceneEndTimer.start();
+        }
+
         for (Wall wall : walls) wall.update();
     }
 
@@ -52,5 +64,38 @@ public class LevelFour extends GamePanel {
         player.x = 750;
         player.y = 800;
         boss = new Boss(player);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        super.actionPerformed(e);
+        Object source = e.getSource();
+        if (source == cutsceneEndTimer) closeGame();
+    }
+
+    private void closeGame() {
+        try {
+            Robot robot = new Robot();
+            Point mouseStartPos = MouseInfo.getPointerInfo().getLocation();
+            for (int i = 1; i <= 100; i++) {
+                robot.mouseMove(mouseStartPos.x + (925 - mouseStartPos.x) * i / 100, mouseStartPos.y + (1080 - mouseStartPos.y) * i / 100);
+                robot.delay(5);
+            }
+            robot.mouseMove(925,1080);
+            robot.mousePress(InputEvent.getMaskForButton(MouseEvent.BUTTON1));
+            robot.mouseRelease(InputEvent.getMaskForButton(MouseEvent.BUTTON1));
+
+            mouseStartPos = MouseInfo.getPointerInfo().getLocation();
+            for (int i = 1; i <= 100; i++) {
+                robot.mouseMove(mouseStartPos.x + (1325 - mouseStartPos.x) * i / 100, mouseStartPos.y + (25 - mouseStartPos.y) * i / 100);
+                robot.delay(5);
+            }
+            robot.mouseMove(1325,25);
+            robot.mousePress(InputEvent.getMaskForButton(MouseEvent.BUTTON1));
+            robot.mouseRelease(InputEvent.getMaskForButton(MouseEvent.BUTTON1));
+        } catch (AWTException e) {
+            System.out.println(e.getMessage());
+        }
+
     }
 }

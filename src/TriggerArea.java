@@ -5,7 +5,7 @@ import java.io.File;
 
 public class TriggerArea {
     protected int x, y;
-    private int width, height;
+    protected int width, height;
     protected Rectangle triggerArea;
     protected Player playerReference;
 

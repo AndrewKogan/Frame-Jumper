@@ -16,4 +16,10 @@ public class AudioTriggerArea extends TriggerArea {
             played = true;
         }
     }
+
+    @Override
+    public void draw(Graphics2D g2) {
+        g2.setColor(Color.red);
+        g2.drawRect(x, y, width, height);
+    }
 }

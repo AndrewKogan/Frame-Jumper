@@ -1,9 +1,21 @@
 import java.awt.*;
 
 public class LevelOne extends GamePanel {
+    private AudioTriggerArea triggerArea1;
+    private AudioTriggerArea triggerArea2;
+    private AudioTriggerArea triggerArea3;
+    private AudioTriggerArea triggerArea4;
+    private AudioTriggerArea triggerArea5;
+
     public LevelOne() {
         super();
         levelEnd = new LevelEndInteractable(-940,-420,"src\\images\\test.jpg", player);
+
+        triggerArea1 = new AudioTriggerArea(350, 400, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line1.wav");
+        triggerArea2 = new AudioTriggerArea(-250, 400, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line2.wav");
+        triggerArea3 = new AudioTriggerArea(-450, 230, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line3.wav");
+        triggerArea4 = new AudioTriggerArea(200, 160, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line4.wav");
+        triggerArea5 = new AudioTriggerArea(-540, -330, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line5.wav");
     }
 
     @Override
@@ -13,6 +25,12 @@ public class LevelOne extends GamePanel {
         for (Wall wall : walls) wall.update();
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
         for (Enemy enemy : enemies) enemy.update(player);
+
+        triggerArea1.update();
+        triggerArea2.update();
+        triggerArea3.update();
+        triggerArea4.update();
+        triggerArea5.update();
     }
 
     @Override
@@ -59,5 +77,10 @@ public class LevelOne extends GamePanel {
     public void reset() {
         super.reset();
         levelEnd = new LevelEndInteractable(-940,-420,"src\\images\\test.jpg", player);
+        triggerArea1 = new AudioTriggerArea(350, 400, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line1.wav");
+        triggerArea2 = new AudioTriggerArea(-250, 400, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line2.wav");
+        triggerArea3 = new AudioTriggerArea(-450, 230, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line3.wav");
+        triggerArea4 = new AudioTriggerArea(200, 160, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line4.wav");
+        triggerArea5 = new AudioTriggerArea(-540, -330, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line5.wav");
     }
 }

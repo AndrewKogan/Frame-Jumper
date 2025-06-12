@@ -32,6 +32,8 @@ public class Player {
     boolean facingLeft;
     boolean lockMovement;
 
+    int health;
+
     private Animation idle;
     private Animation run;
     private Animation jump;
@@ -75,6 +77,8 @@ public class Player {
         wallJumpedLeft = false;
         wallCollided = new Wall(0,0,0,0,this,false);
 
+        health = 100;
+
         idle = new Animation("src\\images\\Andrew\\Idle", 4, 4, true);
         run = new Animation("src\\images\\Andrew\\Run", 4, 8, true);
         jump = new Animation("src\\images\\Andrew\\Jump", 3, 15, false);
@@ -96,6 +100,7 @@ public class Player {
             if (death.finished)
                 panel.reset();
         }
+        else if (health <= 0) die();
         else if (attacking) {
             if (attack.finished) {
                 lockMovement = false;
@@ -104,7 +109,6 @@ public class Player {
         }
         else if (blocking) {
             blockFrames--;
-            if (iFrames > 0) iFrames--;
             if (blockFrames <= 0) {
                 lockMovement = false;
                 blocking = false;
@@ -113,6 +117,8 @@ public class Player {
         else if (!lockMovement) {
             frameCount++;
             cooldown--;
+
+            if (iFrames > 0) iFrames--;
 
             if(frameCount%(3*gravityDecelerator)==0) yspeed+=gravity;
 
@@ -162,7 +168,7 @@ public class Player {
             if(xspeed!=0) holdingOn = true;
 
             if (KeyInputs.keysPressed[KeyEvent.VK_W]) {
-                if(ycollision){
+                if(ycollision) {
                     yspeed = -7;
                     cooldown = 20;
                     if(currentAnimation!=climb&&currentAnimation!=hang) {
@@ -285,5 +291,12 @@ public class Player {
         if (xspeed == 0 && currentAnimation == climb) currentImage = currentAnimation.getFirstFrame();
         if((facingLeft && !(currentAnimation == wallSlide)) || (!facingLeft && (currentAnimation == wallSlide))) g2.drawImage(currentImage, x, y, width, height,null);
         else g2.drawImage(currentImage, x+width, y, -width, height,null);
+
+        if (GameManager.level == 0) {
+            g2.setColor(Color.BLACK);
+            g2.fillRect(1100, 925, 300, 50);
+            g2.setColor(Color.RED);
+            g2.fillRect(1125, 937, (int) (((double)health / 100) * 250), 25);
+        }
     }
 }

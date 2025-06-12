@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Animation implements ActionListener {
     private ArrayList<BufferedImage> frames;
     private Timer timer;
-    private int currentFrame;
+    public int currentFrame;
 
     private boolean loop;
     public boolean finished;

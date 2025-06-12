@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 public class GameManager {
-    private static int level = 0;
+    public static int level = 0;
     private static GamePanel[] levels;
     private static JFrame window;
 
@@ -12,10 +12,10 @@ public class GameManager {
         window.setTitle("Frame Jumper");
 
         levels = new GamePanel[] {
-                new LevelOne(),
-                new LevelTwo(),
-                new LevelThree()
-
+                //new LevelOne(),
+                //new LevelTwo(),
+                //new LevelThree(),
+                new LevelFour()
         };
 
         GamePanel gamePanel = levels[0];

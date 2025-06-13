@@ -15,11 +15,11 @@ public class LevelOne extends GamePanel {
 
         introCutscene = new Cutscene("https://youtube.com/shorts/5V9fezUeX4s?feature=share", 77000, this);
 
-        triggerArea1 = new AudioTriggerArea(350, 400, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line1.wav", 0);
-        triggerArea2 = new AudioTriggerArea(-250, 400, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line2.wav", 0);
-        triggerArea3 = new AudioTriggerArea(-450, 230, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line3.wav", 0);
-        triggerArea4 = new AudioTriggerArea(200, 160, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line4.wav", 0);
-        triggerArea5 = new AudioTriggerArea(-540, -330, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line5.wav", 0);
+        triggerArea1 = new AudioTriggerArea(300,499,100,50, player, "src\\Audio\\LevelOneVoicelines\\Line1.wav", 0,15*60);
+        triggerArea2 = new AudioTriggerArea(-250,499,100,50, player, "src\\Audio\\LevelOneVoicelines\\Line2.wav", 0,11*60);
+        triggerArea3 = new AudioTriggerArea(-450, 230, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line3.wav", 0,14*60);
+        triggerArea4 = new AudioTriggerArea(200, 160, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line4.wav", 0,8*60);
+        triggerArea5 = new AudioTriggerArea(-540, -330, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line5.wav", 0,8*60);
 
     }
 
@@ -37,11 +37,11 @@ public class LevelOne extends GamePanel {
         for (int i = 0; i < spikes.size(); i++) spikes.get(i).update();
         for (Enemy enemy : enemies) enemy.update(player);
 
-        triggerArea1.update();
-        triggerArea2.update();
-        triggerArea3.update();
-        triggerArea4.update();
-        triggerArea5.update();
+        if(triggerArea1!=null)triggerArea1.update();
+        if(triggerArea2!=null)triggerArea2.update();
+        if(triggerArea3!=null)triggerArea3.update();
+        if(triggerArea4!=null)triggerArea4.update();
+        if(triggerArea5!=null)triggerArea5.update();
     }
 
     @Override
@@ -88,10 +88,19 @@ public class LevelOne extends GamePanel {
     public void reset() {
         super.reset();
         levelEnd = new LevelEndInteractable(-940,-420,"src\\images\\test.jpg", player);
-        triggerArea1 = new AudioTriggerArea(350, 400, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line1.wav", 0);
-        triggerArea2 = new AudioTriggerArea(-250, 400, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line2.wav", 0);
-        triggerArea3 = new AudioTriggerArea(-450, 230, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line3.wav", 0);
-        triggerArea4 = new AudioTriggerArea(200, 160, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line4.wav", 0);
-        triggerArea5 = new AudioTriggerArea(-540, -330, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line5.wav", 0);
+        if(triggerArea1!=null && !triggerArea1.alreadyPlayed) triggerArea1 = new AudioTriggerArea(300,499,100,50, player, "src\\Audio\\LevelOneVoicelines\\Line1.wav", 0,15*60);
+        else triggerArea1 = null;
+
+        if(triggerArea2!=null && !triggerArea2.alreadyPlayed) triggerArea2 = new AudioTriggerArea(-250,499,100,50, player, "src\\Audio\\LevelOneVoicelines\\Line2.wav", 0,11*60);
+        else triggerArea2 = null;
+
+        if(triggerArea3!=null && !triggerArea3.alreadyPlayed) triggerArea3 = new AudioTriggerArea(-450, 230, 100, 100, player, "src\\Audio\\LevelOneVoicelines\\Line3.wav", 0,14*60);
+        else triggerArea3 = null;
+
+        if(triggerArea4!=null && !triggerArea4.alreadyPlayed) triggerArea4 = new AudioTriggerArea(200, 160, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line4.wav", 0,8*60);
+        else triggerArea4 = null;
+
+        if(triggerArea5!=null && !triggerArea5.alreadyPlayed) triggerArea5 = new AudioTriggerArea(-540, -330, 50, 100, player, "src\\Audio\\LevelOneVoicelines\\Line5.wav", 0,8*60);
+        else triggerArea5 = null;
     }
 }

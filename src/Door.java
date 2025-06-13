@@ -23,9 +23,9 @@ public class Door extends Wall {
             startY = y;
         }
         if (isOpening) {
-            y -= 100 / GamePanel.FPS;
+            y -= 150 / GamePanel.FPS;
         }
-        if (y <= (startY - 100)) {
+        if (y <= (startY - 150)) {
             opened = true;
             isOpening = false;
             player.lockMovement = false;

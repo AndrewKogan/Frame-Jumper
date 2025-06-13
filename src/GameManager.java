@@ -9,7 +9,7 @@ public class GameManager {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Frame Jumper");
+        window.setTitle("Saving Matthias");
 
         levels = new GamePanel[] {
                 new LevelOne(),
@@ -34,7 +34,7 @@ public class GameManager {
         window = new JFrame();
         window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         window.setResizable(false);
-        window.setTitle("Frame Jumper");
+        window.setTitle("Saving Matthias");
         level++;
         GamePanel gamePanel = levels[level];
         window.add(gamePanel);

@@ -23,8 +23,7 @@ public class AudioPlayer {
     public static void playMusic(String musicPath) {
         File musicFile = new File(musicPath);
         try {
-            if (music != null)
-                music.stop();
+            stopMusic();
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(musicFile);
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
@@ -34,5 +33,9 @@ public class AudioPlayer {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+    }
+
+    public static void stopMusic() {
+        if (music != null) music.stop();
     }
 }

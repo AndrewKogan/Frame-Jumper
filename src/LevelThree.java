@@ -5,7 +5,6 @@ import java.io.IOException;
 
 import GridPuzzle.GridPuzzle;
 
-import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 
 public class LevelThree extends GamePanel {

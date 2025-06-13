@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     private Panel panelToDisplay = Panel.LEVEL;
 
     private Cutscene testCutscene;
-    private JButton cutsceneContinueButton;
+    JButton cutsceneContinueButton;
 
     private Interactable testInteractable;
 

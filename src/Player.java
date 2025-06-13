@@ -299,7 +299,7 @@ public class Player {
         if((facingLeft && !(currentAnimation == wallSlide)) || (!facingLeft && (currentAnimation == wallSlide))) g2.drawImage(currentImage, x, y, width, height,null);
         else g2.drawImage(currentImage, x+width, y, -width, height,null);
 
-        if (GameManager.level == 0) {
+        if (GameManager.level == 3) {
             g2.setColor(Color.BLACK);
             g2.fillRect(1100, 925, 300, 50);
             g2.setColor(Color.RED);

@@ -1,3 +1,5 @@
+import Audio.AudioPlayer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -36,6 +38,7 @@ public class LevelFour extends GamePanel {
         boss.update();
 
         if (boss.health <= 0)  {
+            AudioPlayer.stopMusic();
             postCutscene.play();
             cutsceneEndTimer.start();
         }
@@ -71,6 +74,7 @@ public class LevelFour extends GamePanel {
         super.actionPerformed(e);
         Object source = e.getSource();
         if (source == cutsceneEndTimer) closeGame();
+        if (e.getSource() == cutsceneContinueButton) Audio.AudioPlayer.playMusic("src\\Audio\\Roar of Dedede - Kirby and the Forgotten Land OST [050]-[AudioTrimmer.com].wav");
     }
 
     private void closeGame() {

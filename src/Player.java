@@ -99,8 +99,21 @@ public class Player {
 
     public void update() {
         if (dying) {
-            if (death.finished)
+            if (death.finished) {
+                idle.stop();
+                run.stop();
+                jump.stop();
+                fall.stop();
+                wallSlide.stop();
+                wallJump.stop();
+                hang.stop();
+                climb.stop();
+                attack.stop();
+                block.stop();
+                death.stop();
+
                 panel.reset();
+            }
         }
         else if (health <= 0) die();
         else if (attacking) {
@@ -294,6 +307,8 @@ public class Player {
 
     public void draw(Graphics2D g2) {
         BufferedImage currentImage = currentAnimation.getActiveFrame();
+
+        if (currentAnimation == death) System.out.println(currentAnimation.currentFrame);
 
         if (xspeed == 0 && currentAnimation == climb) currentImage = currentAnimation.getFirstFrame();
         if((facingLeft && !(currentAnimation == wallSlide)) || (!facingLeft && (currentAnimation == wallSlide))) g2.drawImage(currentImage, x, y, width, height,null);

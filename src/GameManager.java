@@ -12,7 +12,7 @@ public class GameManager {
         window.setTitle("Saving Matthias");
 
         levels = new GamePanel[] {
-//                new LevelOne(),
+                //new LevelOne(),
                 new LevelTwo(),
                 new LevelThree(),
                 new LevelFour()
@@ -44,21 +44,5 @@ public class GameManager {
         window.setVisible(true);
 
         gamePanel.startGameThread();
-    }
-
-    public static void resetLevel(){
-        System.out.println("reset");
-        window.dispose();
-
-        window = new JFrame();
-        window.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        window.setResizable(false);
-        window.setTitle("Saving Matthias");
-        GamePanel gamePanel = levels[level];
-        window.add(gamePanel);
-        window.pack();
-
-        window.setLocationRelativeTo(null);
-        window.setVisible(true);
     }
 }

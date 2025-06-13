@@ -66,7 +66,7 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     @Override
     public void run() {
         double drawInterval = 1000000000./FPS;
-        double delta  = 0;
+        double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
 
@@ -145,7 +145,6 @@ public class GamePanel extends JPanel implements Runnable, ActionListener {
     public void makeEnemies(){}
 
     public void reset() {
-        GameManager.resetLevel();
         player = new Player(350,300,this);
 
         walls.clear();
